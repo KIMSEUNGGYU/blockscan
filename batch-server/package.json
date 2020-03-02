@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node index.js",
-    "dev:batch": "NODE_PATH=api/v1/ node api/v1/index.js"
+    "dev:batch": "NODE_PATH=api/v1/ node api/v1/index.js",
+    "dev:mysql": "NODE_PATH=api/v1/ node api/v1/mysql.js"
   },
   "keywords": [],
   "author": "",
