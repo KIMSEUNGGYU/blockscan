@@ -45,10 +45,18 @@ const getTransactionReceipt = hash => {
     data: JSON.stringify(data),
   };
 
-  return axios(OPTION).then(response => {
-    let data = response.data;
-    return data;
-  });
+  return axios(OPTION)
+    .then(response => {
+      return response.data;
+    })
+    .catch(error => {
+      console.log('txReceipt error', error);
+    });
+  // .then(response => {
+
+  // }).catch(error) {
+  //   console.log('txReceipt error', error);
+  // };
 };
 
 const getUncleByBlockHashAndIndex = (blockHash, index) => {
