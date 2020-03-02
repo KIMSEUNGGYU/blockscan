@@ -25,7 +25,7 @@ const selectJoinBlockAndTxs = async blockNumber => {
   return result;
 };
 
-const insertBlock = blockData => {
+const insertBlock = async blockData => {
   const {
     number,
     timestamp,
@@ -46,7 +46,7 @@ const insertBlock = blockData => {
     nonce,
   } = blockData;
 
-  Blocks.create({
+  await Blocks.create({
     number,
     timestamp,
     txcount,
