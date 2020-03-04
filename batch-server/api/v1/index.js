@@ -13,7 +13,7 @@ const { blockParse, txsParse } = require('services');
 const { selectAllBlocks, insertBlock, selectJoinBlockAndTxs } = require('DB/query/blocks');
 const { selectAllTxs, insertTxs, selectTxs } = require('DB/query/txs');
 const sequelize = require('DB/models').sequelize;
-// sequelize.sync();
+sequelize.sync();
 
 global.errorArray = [];
 global.number = 9590517;
