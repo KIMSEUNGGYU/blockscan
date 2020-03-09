@@ -8,12 +8,20 @@ const app = express();
 const { getBlockByNumber } = require('external/infura');
 
 // services
-const { blockParse, txsParse } = require('services');
+const { blockParse, txsParse, updateTxError } = require('services');
 
 const { selectAllBlocks, insertBlock, selectJoinBlockAndTxs } = require('DB/query/blocks');
-const { selectAllTxs, insertTxs, selectTxs } = require('DB/query/txs');
+const { selectAllTxs, insertTxs, selectTxs, testTx } = require('DB/query/txs');
 const sequelize = require('DB/models').sequelize;
-sequelize.sync();
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log('Connection has been established successfully.');
+    sequelize.sync();
+  })
+  .catch(err => {
+    console.error('Unable to connect to the database:', err);
+  });
 
 global.errorArray = [];
 global.number = 9590517;
@@ -40,34 +48,52 @@ const main = async number => {
     console.error('insert block and txs error', error);
   }
 };
-// main(9590517);
 
-const job = cron.schedule('*/15 * * * * *', function() {
-  console.log(`PARSE BLOCK: ${global.number} : ${new Date()}`);
+const errorHandle = async () => {
+  try {
+    console.log('ERROR Handle EXE');
+    while (global.errorArray.length) {
+      const hash = global.errorArray.shift();
+      await updateTxError(hash);
+      console.log('update tx:', hash);
+    }
+  } catch (error) {
+    console.error('ERROR HANDLE ERROR', error);
+  } finally {
+    job.start();
+  }
+};
+
+const job = cron.schedule('*/15 * * * * *', async function() {
+  const result = await testTx();
+  for (tx of result) {
+    global.errorArray.push(tx['hash']);
+  }
+
   if (global.errorArray.length) {
+    errorHandle();
     job.stop();
-    errorJob.start();
   } else {
+    console.log(`PARSE BLOCK: ${global.number} : ${new Date()}`);
     main(global.number);
     global.number += 1;
   }
 });
 
-const errorJob = cron.schedule('*/5 * * * * *', function() {
-  console.log('ERROR JOB EXE:', global.errorArray.length);
-  if (global.errorArray.length) {
-    let hash = global.errorArray.shift();
-    console.log('ERROR JOB HASH:', hash);
-    // console.log(global.errorArray.shift());
-  } else {
-    errorJob.stop();
-    job.start();
-  }
-});
-
-const crontab = () => {
+(function() {
   console.log(`start job crontab: ${new Date()}`);
   job.start();
-  errorJob.stop();
-};
-crontab();
+  // errorJob.stop();
+})();
+// crontab();
+
+// (async function() {
+//   const result = await testTx();
+//   for (tx of result) {
+//     global.errorArray.push(tx['hash']);
+//   }
+
+//   for (hash of global.errorArray) {
+//     updateTxError(hash);
+//   }
+// })();

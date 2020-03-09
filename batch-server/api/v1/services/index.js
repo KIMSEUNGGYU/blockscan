@@ -5,9 +5,12 @@ const {
   getUncleByBlockHashAndIndex,
 } = require('external/infura');
 
-// txReceiptError = [];
 // helper
 const { intToHex, hexToInt } = require('helper/translate');
+
+// Query
+const { selectTxOfHash, updateTx } = require('DB/query/txs');
+const { selectBlockOfNumber, updateBlock } = require('DB/query/blocks');
 
 const getUnclesReward = async (block, uncles) => {
   const { hash, number } = block;
@@ -89,17 +92,31 @@ const txsParse = async (transactions, timestamp) => {
       tx['txfee'] = intToHex(tx['gasprice'] * tx['gasused']);
       txFeeSum += hexToInt(tx['txfee']);
     } catch (error) {
-      // txReceiptError.push(hash);
       global.errorArray.push(hash);
       console.error('global.errorArray', global.errorArray);
-      // console.error('txReceipt error:', error);
     }
   }
 
   return { txs: Object.values(rawTx), txFeeSum };
 };
 
+const updateTxError = async hash => {
+  const tx = await selectTxOfHash(hash);
+  const block = await selectBlockOfNumber(tx['blocksnumber']);
+  const { result } = await getTransactionReceipt(hash);
+  const { status, gasUsed } = result;
+  tx['timestamp'] = block['timestamp'];
+  tx['status'] = status;
+  tx['gasused'] = gasUsed;
+  // // txfee 는 계산하기
+  tx['txfee'] = intToHex(tx['gasprice'] * tx['gasused']);
+  block['blockreward'] += hexToInt(tx['txfee']);
+  updateTx(tx);
+  updateBlock(block);
+};
+
 module.exports = {
   blockParse,
   txsParse,
+  updateTxError,
 };
