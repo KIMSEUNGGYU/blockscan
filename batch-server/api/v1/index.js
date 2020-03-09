@@ -64,7 +64,7 @@ const errorHandle = async () => {
   }
 };
 
-const job = cron.schedule('*/5 * * * * *', async function() {
+const job = cron.schedule('*/15 * * * * *', async function() {
   const result = await testTx();
   for (tx of result) {
     global.errorArray.push(tx['hash']);
