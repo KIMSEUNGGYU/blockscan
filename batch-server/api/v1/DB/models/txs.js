@@ -61,10 +61,15 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         // allowNull: false,
       },
-      blocks_number: {
+      blocksnumber: {
         type: DataTypes.STRING(45),
         // allowNull: false,
       },
+
+      // blocks_number: {
+      //   type: DataTypes.STRING(45),
+      //   // allowNull: false,
+      // },
     },
     {
       timestamps: false,

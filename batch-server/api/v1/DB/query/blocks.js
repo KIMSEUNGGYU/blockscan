@@ -2,6 +2,21 @@ const db = require('DB/models');
 const { Blocks, Txs } = db;
 const { intToHex } = require('helper/translate');
 
+const selectBlockOfNumber = async number => {
+  try {
+    const result = await Blocks.findOne({
+      raw: true,
+      where: {
+        number: number,
+      },
+    });
+
+    return result;
+  } catch (error) {
+    console.error('selectBlockOfNumber error', error);
+  }
+};
+
 const selectAllBlocks = async () => {
   const result = await Blocks.findAll({ raw: true });
   return result;
@@ -67,8 +82,29 @@ const insertBlock = async blockData => {
   });
 };
 
+const updateBlock = async block => {
+  const { blockreward, number } = block;
+  try {
+    await Blocks.update(
+      {
+        blockreward,
+      },
+      {
+        where: {
+          number,
+        },
+      },
+    );
+    console.log('update block success');
+  } catch (error) {
+    console.log('update block error', error);
+  }
+};
+
 module.exports = {
   selectAllBlocks,
   insertBlock,
   selectJoinBlockAndTxs,
+  selectBlockOfNumber,
+  updateBlock,
 };

@@ -7,16 +7,21 @@ const selectAllTxs = async () => {
   return result;
 };
 
-const selectTxs = async blockNumber => {
-  const result = await Txs.findAll({
-    raw: true,
-    where: {
-      blocks_number: blockNumber,
-    },
-  });
+const selectTxOfHash = async txHash => {
+  try {
+    const result = await Txs.findOne({
+      raw: true,
+      where: {
+        hash: txHash,
+      },
+    });
 
-  return result;
+    return result;
+  } catch (error) {
+    console.error('selectTxOfHash', error);
+  }
 };
+
 const insertTxs = txs => {
   for (tx of txs) {
     const {
@@ -50,13 +55,42 @@ const insertTxs = txs => {
       nonce,
       inputdata: input,
       index: hexToInt(transactionindex),
-      blocks_number: blocknumber,
+      blocksnumber: blocknumber,
     });
   }
+};
+
+const updateTx = async tx => {
+  const { status, timestamp, txfee, hash } = tx;
+  try {
+    await Txs.update(
+      { status, timestamp, txfee },
+      {
+        where: {
+          hash,
+        },
+      },
+    );
+    console.log('success update');
+  } catch (error) {
+    console.error('tx update error', error);
+  }
+};
+
+const testTx = async () => {
+  const result = await Txs.findAll({
+    raw: true,
+    where: {
+      txfee: null,
+    },
+  });
+  return result;
 };
 
 module.exports = {
   selectAllTxs,
   insertTxs,
-  selectTxs,
+  selectTxOfHash,
+  updateTx,
+  testTx,
 };

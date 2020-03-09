@@ -16,8 +16,8 @@ db.Blocks = require('./blocks')(sequelize, Sequelize);
 db.Txs = require('./txs')(sequelize, Sequelize);
 
 // 시퀄라이즈 관계 정의
-db.Blocks.hasMany(db.Txs, { foreignKey: 'blocks_number', sourceKey: 'number' });
-db.Txs.belongsTo(db.Blocks, { foreignKey: 'blocks_number', sourceKey: 'number' });
+db.Blocks.hasMany(db.Txs, { foreignKey: 'blocksnumber', sourceKey: 'number' });
+db.Txs.belongsTo(db.Blocks, { foreignKey: 'blocksnumber', sourceKey: 'number' });
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
