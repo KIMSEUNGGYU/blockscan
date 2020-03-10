@@ -6,6 +6,7 @@ const BannerDiv = styled.div`
   border: 1px solid black;
   display: flex;
   justify-content: center;
+  margin: 0 0 20px;
 `;
 
 const BannerBox = styled.div`
