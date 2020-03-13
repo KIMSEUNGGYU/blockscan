@@ -7,118 +7,130 @@ import Difficulty from '../../../../Assets/Difficulty.svg';
 import Chart from '../../../../Assets/Chart.jpg';
 
 const EtherInfo = styled.div`
-  height: 152px;
+  height: 30%;
+  padding: 12px 0;
   margin: 0px 0px 20px;
-  box-shadow: 0 0.5rem 1.2rem rgba(189, 197, 209, 0.2);
   border: 1px solid #e7eaf3;
   font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
   font-size: 0.8125rem;
   line-height: 1.5;
   background-color: white;
+  box-shadow: 0 0.5rem 1.2rem rgba(189, 197, 209, 0.2);
 `;
 
-const InfoDiv = styled.div`
-  padding: 12px;
-  box-sizing: border-box;
-  border: 1px solid black;
-  display: flex;
-`;
-
-const EtherMarketBox = styled.div`
-  border-right: 1px solid #e7eaf3;
-  width: 30%;
-  border: 1px solid black;
-  display: block;
-`;
-
-const LatestDifficultyBox = styled.div`
-  width: 30%;
-  border-right: 1px solid #e7eaf3;
-  box-sizing: border-box;
-  border: 1px solid black;
+const InfoInner = styled.div`
   display: flex;
   justify-content: space-between;
 `;
 
-const ItemBox = styled.div`
+const SubInner = styled.div`
+  width: 32%;
+  border-right: 1px solid #e7eaf3;
+  margin-left: 12px;
+  padding-right: 15px;
+`;
+
+const ThirdInner = styled.div`
   display: flex;
   align-items: center;
-  box-sizing: border-box;
-  border: 1px solid black;
-  /* justify-content: space-between; */
+`;
+
+const BlockTxDiffiHashinner = styled.div`
+  width: 100%;
+`;
+
+const LatestTransactionBox = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+`;
+
+const TitleBox = styled.div`
+  display: block;
+  color: #77838f;
+`;
+
+const StlyedText = styled.div`
+  color: black;
 `;
 
 const ImageBox = styled.img`
-  width: 26px;
-  height: 26px;
+  width: 30px;
+  height: 30px;
+  padding-right: 10px;
 `;
 
 const Styledhr = styled.hr`
+  width: 95%;
   margin-top: 1.6rem;
   margin-bottom: 1.6rem;
   opacity: 0.75px;
   border: 0;
-  border-top: 1px solid black;
-`;
-
-const StyledCharBox = styled.div`
-  display: block;
-  box-sizing: border-box;
-  border: 1px solid black;
+  border: 0.5px solid #e7eaf3;
 `;
 
 const RenderEtherInfo = () => {
   return (
     <EtherInfo>
-      <InfoDiv>
-        <EtherMarketBox>
-          <ItemBox>
+      <InfoInner>
+        <SubInner>
+          <ThirdInner>
             <ImageBox src={Price} />
-            ETHER PRICE
-            <br />
-            $203.66 @ 0.0252 BTC (-0.60%)
-          </ItemBox>
+            <BlockTxDiffiHashinner>
+              <LatestTransactionBox>
+                <TitleBox>ETHER PRICE</TitleBox>
+              </LatestTransactionBox>
+              <LatestTransactionBox>
+                <StlyedText>$119.28 @ 0.02318 BTC (-15.58%)</StlyedText>
+              </LatestTransactionBox>
+            </BlockTxDiffiHashinner>
+          </ThirdInner>
           <Styledhr />
-          <ItemBox>
+          <ThirdInner>
             <ImageBox src={Market} />
-            MARKET CAP
-            <br />
-            $22,410,113,736.381
-          </ItemBox>
-        </EtherMarketBox>
-        <LatestDifficultyBox>
-          <div>
-            <ItemBox>
-              <ImageBox src={Block} />
-              LATEST BLOCK
-              <br />
-              9643913
-            </ItemBox>
-            <ItemBox>
-              TRANSACTIONS
-              <br />
-              655.13 M (10.3 TPS)
-            </ItemBox>
-          </div>
+            <BlockTxDiffiHashinner>
+              <LatestTransactionBox>
+                <TitleBox>MARKET CAP</TitleBox>
+              </LatestTransactionBox>
+              <LatestTransactionBox>
+                <StlyedText>$13,130,287,549.724</StlyedText>
+              </LatestTransactionBox>
+            </BlockTxDiffiHashinner>
+          </ThirdInner>
+        </SubInner>
+        <SubInner>
+          <ThirdInner>
+            <ImageBox src={Block} />
+            <BlockTxDiffiHashinner>
+              <LatestTransactionBox>
+                <TitleBox>LATEST BLOCK</TitleBox>
+                <TitleBox>TRANSACTIONS</TitleBox>
+              </LatestTransactionBox>
+              <LatestTransactionBox>
+                <StlyedText>9664036</StlyedText>
+                <StlyedText>657.51</StlyedText>
+              </LatestTransactionBox>
+            </BlockTxDiffiHashinner>
+          </ThirdInner>
           <Styledhr />
-          <div>
-            <ItemBox>
-              <ImageBox src={Difficulty} />
-              DIFFICULTY
-              <br />
-              2,297.24 TH
-            </ItemBox>
-            <ItemBox>
-              HASH RATE
-              <br />
-              184,076.93 GH/s
-            </ItemBox>
-          </div>
-        </LatestDifficultyBox>
-        <StyledCharBox>
+          <ThirdInner>
+            <ImageBox src={Difficulty} />
+            <BlockTxDiffiHashinner>
+              <LatestTransactionBox>
+                <TitleBox>DIFFICULTY</TitleBox>
+                <TitleBox>HASH RATE</TitleBox>
+              </LatestTransactionBox>
+              <LatestTransactionBox>
+                <StlyedText>2,274.65 TH</StlyedText>
+                <StlyedText>175,515.42 GH/s</StlyedText>
+              </LatestTransactionBox>
+            </BlockTxDiffiHashinner>
+          </ThirdInner>
+        </SubInner>
+        <SubInner>
           <img src={Chart} alt='ETHEREUM TRANSACTION HISTORY IN 14 DAYS'></img>
-        </StyledCharBox>
-      </InfoDiv>
+        </SubInner>
+      </InfoInner>
     </EtherInfo>
   );
 };
