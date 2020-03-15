@@ -1,21 +1,15 @@
-const express = require('express');
-const router = express.Router();
 const { parseBlocks, parseTxs } = require('../services/index');
-
+const { viewIndex } = require('../views/index');
 /* GET home page. */
-router.get('/', async function(req, res, next) {
+
+const controllerIndex = async (req, res, next) => {
   const blocks = await parseBlocks();
-  const txs = await parseTxs();
+  const txs = await parseTxs(); // 컨트롤
 
-  res.json({
-    code: 200,
-    status: 'success',
-    message: 'main page response : List of 10 transactions and blocks',
-    result: {
-      blocks,
-      txs,
-    },
-  });
-});
+  // view
+  res.json(viewIndex(blocks, txs));
+};
 
-module.exports = router;
+module.exports = {
+  controllerIndex,
+};
