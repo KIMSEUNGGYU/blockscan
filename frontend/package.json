@@ -9,6 +9,8 @@
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-scripts": "3.4.0",
+    "react-search-box": "^2.0.2",
+    "react-select": "^3.0.8",
     "styled-components": "^5.0.1",
     "styled-reset": "^4.1.1"
   },
