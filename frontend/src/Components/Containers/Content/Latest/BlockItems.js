@@ -87,9 +87,7 @@ const StyledHr = styled.hr`
   margin-bottom: 12px;
 `;
 
-const BlockItems = ({ block }) => {
-  console.log(block);
-  const { number, timestamp, miner, txcount, blockreward } = block;
+const BlockItems = () => {
   return (
     <BlockItem>
       <BlockInner>
@@ -98,20 +96,20 @@ const BlockItems = ({ block }) => {
             <BlockIconBox>BK</BlockIconBox>
           </BlockIconDiv>
           <NumberElapseDiv>
-            <NumebrBox>{number}</NumebrBox>
-            <ElapseBox>{timestamp}</ElapseBox>
+            <NumebrBox>번호</NumebrBox>
+            <ElapseBox>경과시간</ElapseBox>
           </NumberElapseDiv>
           <MinerTxEthDiv>
             <MinerTxDiv>
               <MinerBox>
                 Miner
-                <MinerName>{miner}</MinerName>
+                <MinerName>Spark Pool</MinerName>
               </MinerBox>
               <TxBox>
-                <TxCount>{txcount} txns</TxCount>
+                <TxCount>144 txns</TxCount>
               </TxBox>
             </MinerTxDiv>
-            <EthBox>{blockreward} Eth</EthBox>
+            <EthBox>2.19873 Eth</EthBox>
           </MinerTxEthDiv>
         </BlockBox>
       </BlockInner>

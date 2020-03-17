@@ -14,6 +14,7 @@ const HeaderInner = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0px 69px;
 `;
 
 const HeaderLogoBox = styled.div`

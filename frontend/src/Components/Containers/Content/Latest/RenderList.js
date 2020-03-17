@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
 import styled from 'styled-components';
 import BlockItem from './BlockItems';
 
@@ -66,39 +65,22 @@ const ViewAllButton = styled.button`
 // <StyledSrollBarBox onScroll={handleScroll}>
 
 const ReturnList = () => {
-  const [blocks, setBlocks] = useState(null);
-  const [loading, setLoading] = useState(false);
-
-  const fetchBlocks = async () => {
-    try {
-      setBlocks(null);
-      setLoading(true);
-      const response = await axios.get('http://49.50.162.172:3030/api/v1');
-      const result = response.data.result;
-      const { blocks } = result;
-
-      setBlocks(blocks);
-    } catch (error) {
-      console.error('response error', error);
-    }
-  };
-
-  useEffect(() => {
-    fetchBlocks();
-  }, []);
-
-  console.log('blocks', blocks);
-  if (!blocks) return null;
-
   return (
     <StyledDiv>
       <StyledListInner>
         <StyledTitleBox>Latest Blocks</StyledTitleBox>
         <StyledListBox>
           <StyledSrollBarBox>
-            {blocks.map(block => (
-              <BlockItem key={block.number} block={block} />
-            ))}
+            <BlockItem />
+            <BlockItem />
+            <BlockItem />
+            <BlockItem />
+            <BlockItem />
+            <BlockItem />
+            <BlockItem />
+            <BlockItem />
+            <BlockItem />
+            <BlockItem />
           </StyledSrollBarBox>
         </StyledListBox>
         <ViewAllDiv>
@@ -109,10 +91,6 @@ const ReturnList = () => {
         <StyledTitleBox>Latest Transactions</StyledTitleBox>
         <StyledListBox>
           <StyledSrollBarBox>
-            {blocks.map(block => (
-              <BlockItem key={block.number} block={block} />
-            ))}
-            {/* <BlockItem />
             <BlockItem />
             <BlockItem />
             <BlockItem />
@@ -121,7 +99,8 @@ const ReturnList = () => {
             <BlockItem />
             <BlockItem />
             <BlockItem />
-            <BlockItem /> */}
+            <BlockItem />
+            <BlockItem />
           </StyledSrollBarBox>
         </StyledListBox>
         <ViewAllDiv>
