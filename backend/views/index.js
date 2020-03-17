@@ -3,6 +3,7 @@ const viewIndex = (blocks, txs) => {
     code: 200,
     status: 'success',
     message: 'main page response : List of 10 transactions and blocks',
+    test: 'jenkins test',
     result: {
       blocks,
       txs,
