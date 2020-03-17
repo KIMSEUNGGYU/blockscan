@@ -17,6 +17,8 @@
     "styled-reset": "^4.1.1"
   },
   "scripts": {
+    "prod": "pm2 start ./node_modules/react-scripts/scripts/start.js --name blockscan",
+    "dev": "pm2 restart blockscan",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
