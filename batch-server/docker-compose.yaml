@@ -5,9 +5,11 @@ networks:
 services:
   batch-db:
     image: mysql
+    container_name: batch-db
     ports:
       - 3306:3306
-    container_name: batch-db
+    volumes:
+      - /Users/SG/docker_volume/blockscan:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=ss17
       - MYSQL_USER=gyu
@@ -21,11 +23,11 @@ services:
       dockerfile: Dockerfile.dev
     container_name: batch-backend
     ports:
-      - '3000:3000'
+      - '3050:3050'
     volumes:
       - ./:/usr/src/app
     expose:
-      - '3000'
+      - '3050'
     links:
       - batch-db
     depends_on:
