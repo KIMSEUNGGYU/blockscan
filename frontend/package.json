@@ -6,6 +6,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.1",
     "@testing-library/user-event": "^7.2.1",
+    "axios": "^0.19.2",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-icons": "^3.9.0",
@@ -16,6 +17,8 @@
     "styled-reset": "^4.1.1"
   },
   "scripts": {
+    "prod": "pm2 start ./node_modules/react-scripts/scripts/start.js --name blockscan",
+    "dev": "pm2 restart blockscan",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
