@@ -80,7 +80,7 @@ const insertBlock = async blockData => {
     parenthash,
     sha3uncles,
     nonce,
-    gaspriceavg,
+    gaspriceavg: gaspriceavg || 0.0,
   });
 };
 
