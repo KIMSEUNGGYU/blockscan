@@ -18,20 +18,22 @@ sequelize
   .then(() => {
     console.log('Connection has been established successfully.');
     sequelize.sync();
+    console.log(`start job crontab: ${new Date()}`);
+    job.start();
   })
   .catch(err => {
     console.error('Unable to connect to the database:', err);
   });
 
 global.errorArray = [];
-global.number = 9590517;
+global.number = 9700095;
 
 const main = async number => {
   const BASE_BLOCK_REWARD = 2;
 
   const blockData = await getBlockByNumber(number);
   const { block, transactions } = await blockParse(blockData);
-  let { txs, txFeeSum } = await txsParse(transactions, block['timestamp']);
+  let { txs, txFeeSum, gasPriceSum } = await txsParse(transactions, block['timestamp']);
 
   // 블록 관련 데이터 추가 (unclesreward, blockreward)
   txFeeSum = web3Utils.fromWei(txFeeSum.toString(), 'ether');
@@ -39,7 +41,7 @@ const main = async number => {
     BASE_BLOCK_REWARD +
     parseFloat(parseFloat(txFeeSum).toFixed(18)) +
     BASE_BLOCK_REWARD * block['uncles'] * 3.125 * 0.01;
-
+  block['gaspriceavg'] = gasPriceSum / block['txcount'];
   // db 에 데이터 삽입
   try {
     await insertBlock(block);
@@ -80,11 +82,13 @@ const job = cron.schedule('*/15 * * * * *', async function() {
   }
 });
 
-(function() {
-  console.log(`start job crontab: ${new Date()}`);
-  job.start();
-  // errorJob.stop();
-})();
+job.stop();
+
+// (function() {
+//   console.log(`start job crontab: ${new Date()}`);
+//   job.start();
+//   // errorJob.stop();
+// })();
 // crontab();
 
 // (async function() {

@@ -71,6 +71,11 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING(18),
         allowNull: false,
       },
+      gaspriceavg: {
+        type: DataTypes.DOUBLE(25, 23),
+        // type: DataTypes.FLOAT,
+        allowNull: true,
+      },
     },
     {
       timestamps: false,
