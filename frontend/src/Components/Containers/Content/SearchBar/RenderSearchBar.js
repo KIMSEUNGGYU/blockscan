@@ -7,6 +7,7 @@ import FilterData from './FilterData';
 const Search = styled.div`
   height: 30%;
   padding: 12px 20px 20px 20px;
+  margin: 0px 0px 20px 0px;
   background-image: linear-gradient(to right, #1e83e5, #273ea7);
   border-radius: 0.25rem;
 `;
