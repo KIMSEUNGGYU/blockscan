@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 
 const indexRouter = require('./router/index');
 const blocksRouter = require('./router/blocks');
+const txsRouter = require('./router/txs');
 const { corsProcess } = require('./services/cors');
 const app = express();
 
@@ -20,5 +21,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.all('/*', corsProcess);
 app.use(`${BASE_API}/`, indexRouter);
 app.use(`${BASE_API}/blocks`, blocksRouter);
+app.use(`${BASE_API}/txs`, txsRouter);
 
 module.exports = app;
