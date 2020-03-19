@@ -5,6 +5,21 @@ const listOfRecentBlocks = async () => {
   return rows;
 };
 
+const listOfBlocks = async (start, pageNumber) => {
+  // txs 쿼리문
+  const [rows, fields] = await pool.query(
+    `select *
+    from (select * 
+      from blocks
+      order by number desc) blocks
+    limit ${start}, ${pageNumber}
+    `,
+  );
+
+  return rows;
+};
+
 module.exports = {
   listOfRecentBlocks,
+  listOfBlocks,
 };
