@@ -7,9 +7,6 @@ const listOfRecentTxs = async () => {
   return rows;
 };
 
-// export default {
-
-// }
 module.exports = {
   listOfRecentTxs,
 };

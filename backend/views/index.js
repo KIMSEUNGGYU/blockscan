@@ -8,6 +8,8 @@ const viewIndex = (blocks, txs) => {
       blocks,
       txs,
     },
+    blocksTotal: blocks.length,
+    txsTotal: txs.length,
   };
 };
 
