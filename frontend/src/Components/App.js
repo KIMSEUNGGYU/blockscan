@@ -11,7 +11,7 @@ const Main = styled.div`
 `;
 
 const MainInner = styled.div`
-  width: 80%;
+  width: 66%;
   margin: 0 auto;
 `;
 
