@@ -6,10 +6,10 @@ import Theme from '../Styles/Theme';
 import Header from './Containers/Header/ReturnHeader';
 import List from './Containers/Content/Latest/ReturnList';
 import Detail from './Containers/Content/Detail/ReturnDetail';
+
 const Main = styled.div`
   background-color: #f8f9fa;
 `;
-
 const MainInner = styled.div`
   width: 66%;
   margin: 0 auto;
