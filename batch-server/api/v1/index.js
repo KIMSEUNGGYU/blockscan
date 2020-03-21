@@ -18,27 +18,33 @@ sequelize
   .then(() => {
     console.log('Connection has been established successfully.');
     sequelize.sync();
+    console.log(`start job crontab: ${new Date()}`);
+    job.start();
   })
   .catch(err => {
     console.error('Unable to connect to the database:', err);
   });
 
 global.errorArray = [];
-global.number = 9590517;
+global.number = 9700095;
 
 const main = async number => {
   const BASE_BLOCK_REWARD = 2;
 
   const blockData = await getBlockByNumber(number);
   const { block, transactions } = await blockParse(blockData);
-  let { txs, txFeeSum } = await txsParse(transactions, block['timestamp']);
+  let { txs, txFeeSum, gasPriceSum } = await txsParse(transactions, block['timestamp']);
 
-  // 블록 관련 데이터 추가 (unclesreward, blockreward)
+  // 블록 관련 데이터 추가 (unclesreward, blockreward, gaspirceavg)
   txFeeSum = web3Utils.fromWei(txFeeSum.toString(), 'ether');
   block['blockreward'] =
     BASE_BLOCK_REWARD +
     parseFloat(parseFloat(txFeeSum).toFixed(18)) +
     BASE_BLOCK_REWARD * block['uncles'] * 3.125 * 0.01;
+  // gaspriceavg 속성 구하기
+  const gwei = web3Utils.toWei(gasPriceSum.toString(), 'gwei');
+  const avgGasPrice = (gwei * Math.pow(10, -18)) / block['txcount'];
+  block['gaspriceavg'] = avgGasPrice;
 
   // db 에 데이터 삽입
   try {
@@ -80,20 +86,4 @@ const job = cron.schedule('*/15 * * * * *', async function() {
   }
 });
 
-(function() {
-  console.log(`start job crontab: ${new Date()}`);
-  job.start();
-  // errorJob.stop();
-})();
-// crontab();
-
-// (async function() {
-//   const result = await testTx();
-//   for (tx of result) {
-//     global.errorArray.push(tx['hash']);
-//   }
-
-//   for (hash of global.errorArray) {
-//     updateTxError(hash);
-//   }
-// })();
+job.stop();

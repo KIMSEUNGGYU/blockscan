@@ -1,3 +1,5 @@
+const web3Utils = require('web3-utils');
+
 const { listOfRecentBlocks } = require('../models/blocks');
 const { listOfRecentTxs } = require('../models/txs');
 
@@ -13,26 +15,28 @@ const parseBlocks = async () => {
       number: hexToInt(number),
       timestamp: hexToInt(timestamp) * SECOND,
       miner,
-      txcount,
-      blockreward: parseFloat(blockreward),
+      txCount: txcount,
+      blockReward: parseFloat(blockreward),
     });
   }
 
   return blocks;
 };
 
+console.log();
 const parseTxs = async () => {
   const rows = await listOfRecentTxs();
   const txs = [];
 
   for (row of rows) {
     const { hash, timestamp, from, to, txfee } = row;
+
     txs.push({
       hash,
       timestamp: hexToInt(timestamp) * SECOND,
       from,
       to,
-      txfee,
+      txFee: parseFloat(web3Utils.fromWei(hexToInt(txfee).toString())),
     });
   }
 

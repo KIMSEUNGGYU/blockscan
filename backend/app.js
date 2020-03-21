@@ -4,8 +4,11 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 // const logger = require('morgan');
 
-const indexRouter = require('./router/index');
 const { corsProcess } = require('./services/cors');
+const indexRouter = require('./router/index');
+const blocksRouter = require('./router/blocks');
+const blockRouter = require('./router/block');
+
 const app = express();
 
 const BASE_API = '/api/v1';
@@ -18,5 +21,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.all('/*', corsProcess);
 app.use(`${BASE_API}/`, indexRouter);
+app.use(`${BASE_API}/blocks`, blocksRouter);
+app.use(`${BASE_API}/block`, blockRouter);
 
 module.exports = app;

@@ -9,7 +9,7 @@ services:
     ports:
       - 3306:3306
     volumes:
-      - /docker_volume/blockscan:/var/lib/mysql
+      - /Users/SG/docker_volume/blockscan:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=ss17
       - MYSQL_USER=gyu

@@ -59,6 +59,7 @@ const insertBlock = async blockData => {
     parenthash,
     sha3uncles,
     nonce,
+    gaspriceavg,
   } = blockData;
 
   await Blocks.create({
@@ -79,6 +80,7 @@ const insertBlock = async blockData => {
     parenthash,
     sha3uncles,
     nonce,
+    gaspriceavg: gaspriceavg || 0.0,
   });
 };
 
