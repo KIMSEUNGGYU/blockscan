@@ -9,7 +9,7 @@ const Header = styled.div`
 `;
 
 const HeaderInner = styled.div`
-  width: 66%;
+  width: 80%;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
