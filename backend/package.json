@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "dev": "pm2 restart backend",
-    "prod": "pm2 start backend"
+    "dev": "nodemon ./bin/www",
+    "deploy": "pm2 restart backend",
+    "prod": "pm2 start ./bin/www --name backend"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",

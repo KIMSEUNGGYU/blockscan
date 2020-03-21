@@ -35,13 +35,17 @@ const main = async number => {
   const { block, transactions } = await blockParse(blockData);
   let { txs, txFeeSum, gasPriceSum } = await txsParse(transactions, block['timestamp']);
 
-  // 블록 관련 데이터 추가 (unclesreward, blockreward)
+  // 블록 관련 데이터 추가 (unclesreward, blockreward, gaspirceavg)
   txFeeSum = web3Utils.fromWei(txFeeSum.toString(), 'ether');
   block['blockreward'] =
     BASE_BLOCK_REWARD +
     parseFloat(parseFloat(txFeeSum).toFixed(18)) +
     BASE_BLOCK_REWARD * block['uncles'] * 3.125 * 0.01;
-  block['gaspriceavg'] = gasPriceSum / block['txcount'];
+  // gaspriceavg 속성 구하기
+  const gwei = web3Utils.toWei(gasPriceSum.toString(), 'gwei');
+  const avgGasPrice = (gwei * Math.pow(10, -18)) / block['txcount'];
+  block['gaspriceavg'] = avgGasPrice;
+
   // db 에 데이터 삽입
   try {
     await insertBlock(block);
@@ -83,21 +87,3 @@ const job = cron.schedule('*/15 * * * * *', async function() {
 });
 
 job.stop();
-
-// (function() {
-//   console.log(`start job crontab: ${new Date()}`);
-//   job.start();
-//   // errorJob.stop();
-// })();
-// crontab();
-
-// (async function() {
-//   const result = await testTx();
-//   for (tx of result) {
-//     global.errorArray.push(tx['hash']);
-//   }
-
-//   for (hash of global.errorArray) {
-//     updateTxError(hash);
-//   }
-// })();
