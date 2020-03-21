@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import BlockItem from './BlockItems';
+import TxsItems from './TxsItems';
+import { LATESTBLOCKS, LATESTTXS } from '../../../../Action/ActionTypes';
+import { GetApi } from '../../../../Action/api/Get';
 
 const StyledDiv = styled.div`
   font-size: 0.8125rem;
@@ -55,32 +58,69 @@ const ViewAllButton = styled.button`
   background-color: #eaf4fb;
   color: #3498db;
 `;
-// 스크롤 끝을 감지
-// const handleScroll = e => {
-//   const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
-//   if (bottom) {
-//     console.log('asdfa');
-//   }
-// };
-// <StyledSrollBarBox onScroll={handleScroll}>
 
-const ReturnList = () => {
+const RenderList = () => {
+  const [loading, setLoading] = useState(true);
+  const [block, setBlock] = useState([
+    {
+      number: null,
+      timestamp: null,
+      miner: null,
+      txCount: null,
+      blockReward: null,
+    },
+  ]);
+  const [txs, setTxs] = useState([
+    {
+      hash: null,
+      timestamp: null,
+      from: null,
+      to: null,
+      txFee: null,
+    },
+  ]);
+
+  async function GetBlock(action) {
+    const response = await GetApi(action);
+    setBlock(response);
+    return true;
+  }
+
+  async function GetTxs(action) {
+    const response = await GetApi(action);
+    setTxs(response);
+    return true;
+  }
+
+  useEffect(() => {
+    const result1 = GetBlock(LATESTBLOCKS);
+    const result2 = GetTxs(LATESTTXS);
+    if (result1 && result2) {
+      setLoading(false);
+    }
+  }, [loading]);
+
   return (
     <StyledDiv>
       <StyledListInner>
         <StyledTitleBox>Latest Blocks</StyledTitleBox>
         <StyledListBox>
           <StyledSrollBarBox>
-            <BlockItem />
-            <BlockItem />
-            <BlockItem />
-            <BlockItem />
-            <BlockItem />
-            <BlockItem />
-            <BlockItem />
-            <BlockItem />
-            <BlockItem />
-            <BlockItem />
+            {loading && null}
+            {!loading &&
+              block.map((data, index) => {
+                return (
+                  <BlockItem
+                    key={index}
+                    index={index}
+                    number={data.number}
+                    timestamp={data.timestamp}
+                    miner={data.miner}
+                    txCount={data.txCount}
+                    blockReward={data.blockReward}
+                  />
+                );
+              })}
           </StyledSrollBarBox>
         </StyledListBox>
         <ViewAllDiv>
@@ -91,16 +131,21 @@ const ReturnList = () => {
         <StyledTitleBox>Latest Transactions</StyledTitleBox>
         <StyledListBox>
           <StyledSrollBarBox>
-            <BlockItem />
-            <BlockItem />
-            <BlockItem />
-            <BlockItem />
-            <BlockItem />
-            <BlockItem />
-            <BlockItem />
-            <BlockItem />
-            <BlockItem />
-            <BlockItem />
+            {loading && null}
+            {!loading &&
+              txs.map((data, index) => {
+                return (
+                  <TxsItems
+                    key={index}
+                    index={index}
+                    hash={data.hash}
+                    timestamp={data.timestamp}
+                    from={data.from}
+                    to={data.to}
+                    txFee={data.txFee}
+                  />
+                );
+              })}
           </StyledSrollBarBox>
         </StyledListBox>
         <ViewAllDiv>
@@ -111,4 +156,4 @@ const ReturnList = () => {
   );
 };
 
-export default ReturnList;
+export default RenderList;
