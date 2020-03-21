@@ -69,6 +69,7 @@ const blockParse = async blockData => {
 
 const txsParse = async (transactions, timestamp) => {
   let txFeeSum = 0;
+  let gasPriceSum = 0;
   const txs = [];
   const rawTx = {};
   for (tx of transactions) {
@@ -91,13 +92,18 @@ const txsParse = async (transactions, timestamp) => {
       // txfee 는 계산하기
       tx['txfee'] = intToHex(tx['gasprice'] * tx['gasused']);
       txFeeSum += hexToInt(tx['txfee']);
+      gasPriceSum += hexToInt(tx['gasprice']);
     } catch (error) {
       global.errorArray.push(hash);
       console.error('global.errorArray', global.errorArray);
     }
   }
 
-  return { txs: Object.values(rawTx), txFeeSum };
+  return {
+    txs: Object.values(rawTx),
+    txFeeSum,
+    gasPriceSum,
+  };
 };
 
 const updateTxError = async hash => {
