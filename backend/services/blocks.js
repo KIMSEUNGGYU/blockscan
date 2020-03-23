@@ -1,5 +1,5 @@
 const { listOfBlocks } = require('../models/blocks');
-const { hexToInt } = require('../helper/translate');
+const { hexToInt, numberWithCommas } = require('../helper/translate');
 const SECOND = 1000;
 
 const parseBlockList = async (pn, p) => {
@@ -28,10 +28,11 @@ const parseBlockList = async (pn, p) => {
       txCount: txcount,
       uncles,
       miner,
-      gasUsed: hexToInt(gasused),
-      gasLimit: hexToInt(gaslimit),
+      gasUsed: numberWithCommas(hexToInt(gasused)),
+      gasLimit: numberWithCommas(hexToInt(gaslimit)),
       avgGasPrice: parseFloat(gaspriceavg),
       blockReward: parseFloat(blockreward),
+      gasUsedPercent: ((hexToInt(gasused) / hexToInt(gaslimit)) * 100).toFixed(2),
     });
   }
   return blocks;

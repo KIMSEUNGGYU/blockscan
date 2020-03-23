@@ -92,12 +92,7 @@ const txsParse = async (transactions, timestamp) => {
       // txfee 는 계산하기
       tx['txfee'] = intToHex(tx['gasprice'] * tx['gasused']);
       txFeeSum += hexToInt(tx['txfee']);
-      // total += hexToInt(value) * Math.pow(10, -18);
-      gasPriceSum += hexToInt(tx['gasprice']) * Math.pow(10, -18);
-      // gasPriceSum += parseFloat(hexToInt(tx['gasprice']).toFixed(18));
-      // console.log('gasPrice', gasPrice, 'gasPriceSum', gasPriceSum);
-      // console.log('gasPrice', tx['gasprice'], hexToInt(tx['gasprice']), 'gasPriceSum', gasPriceSum);
-      // console.log('gasPriceSum', gasPriceSum);
+      gasPriceSum += hexToInt(tx['gasprice']);
     } catch (error) {
       global.errorArray.push(hash);
       console.error('global.errorArray', global.errorArray);
