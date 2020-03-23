@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { MAINTIME } from '../../../../Action/ActionTypes';
 import { GetTime } from '../../../../Action/Time';
+import { translateTimestamp2 } from '../../../../helper/translate';
 
 const BlockItem = styled.div``;
 
@@ -44,6 +45,7 @@ const NumberBox = styled.div`
 
 const ElapseBox = styled.div`
   color: #77838f;
+  width: 200px;
 `;
 
 const MinerTxEthDiv = styled.div`
@@ -105,10 +107,7 @@ const A = styled.a`
 
 const BlockItems = ({ index, number, timestamp, miner, txCount, blockReward }) => {
   const [loading, setLoading] = useState();
-  const [time, setTime] = useState({
-    Seconds: 0,
-    Minutes: null,
-  });
+  const [time, setTime] = useState('');
 
   if (blockReward != null) {
     blockReward = blockReward.toFixed(5);
@@ -116,10 +115,9 @@ const BlockItems = ({ index, number, timestamp, miner, txCount, blockReward }) =
 
   function TimeCount() {
     setLoading(true);
-    let Timeobj;
+
     setInterval(() => {
-      Timeobj = GetTime(timestamp, MAINTIME);
-      setTime(Timeobj);
+      setTime(translateTimestamp2(timestamp));
     }, 999);
     setLoading(false);
   }
@@ -140,9 +138,7 @@ const BlockItems = ({ index, number, timestamp, miner, txCount, blockReward }) =
             </NumberBox>
             <ElapseBox>
               {loading && null}
-              {!loading && time.Minutes
-                ? time.Minutes + 'min ' + time.Seconds + 'secs ago'
-                : time.Seconds + 'secs ago'}
+              {!loading && time}
             </ElapseBox>
           </NumberElapseDiv>
           <MinerTxEthDiv>

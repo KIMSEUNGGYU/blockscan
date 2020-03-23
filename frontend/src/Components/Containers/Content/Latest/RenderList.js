@@ -104,7 +104,6 @@ const RenderList = () => {
   }, [loading]);
 
   setInterval(() => {
-    console.log('test');
     requestData();
   }, 15 * 1000);
 

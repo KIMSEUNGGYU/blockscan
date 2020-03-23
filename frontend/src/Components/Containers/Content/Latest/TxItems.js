@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { darken, lighten } from 'polished';
 import { MAINTIME } from '../../../../Action/ActionTypes';
 import { GetTime } from '../../../../Action/Time';
+import { translateTimestamp2 } from '../../../../helper/translate';
 
 const TxsItem = styled.div``;
 
@@ -47,6 +48,7 @@ const HashBox = styled.div`
 `;
 
 const TimeStampBox = styled.div`
+  width: 200px;
   color: #77838f;
 `;
 
@@ -114,10 +116,11 @@ const A = styled.a`
 
 const TxsItems = ({ index, hash, timestamp, from, to, txFee }) => {
   const [loading, setLoading] = useState();
-  const [time, setTime] = useState({
-    Seconds: 0,
-    Minutes: null,
-  });
+  // const [time, setTime] = useState({
+  //   Seconds: 0,
+  //   Minutes: null,
+  // });
+  const [time, setTime] = useState('');
 
   if (txFee != null) {
     txFee = txFee.toFixed(5);
@@ -125,16 +128,28 @@ const TxsItems = ({ index, hash, timestamp, from, to, txFee }) => {
 
   function TimeCount() {
     setLoading(true);
-    let Timeobj;
+
     setInterval(() => {
-      Timeobj = GetTime(timestamp, MAINTIME);
-      setTime(Timeobj);
+      setTime(translateTimestamp2(timestamp));
     }, 999);
     setLoading(false);
   }
   useEffect(() => {
     TimeCount();
   }, [time]);
+
+  // function TimeCount() {
+  //   setLoading(true);
+  //   let Timeobj;
+  //   setInterval(() => {
+  //     Timeobj = GetTime(timestamp, MAINTIME);
+  //     setTime(Timeobj);
+  //   }, 999);
+  //   setLoading(false);
+  // }
+  // useEffect(() => {
+  //   TimeCount();
+  // }, [time]);
 
   return (
     <TxsItem>
@@ -149,9 +164,10 @@ const TxsItems = ({ index, hash, timestamp, from, to, txFee }) => {
             </HashBox>
             <TimeStampBox>
               {loading && null}
-              {!loading && time.Minutes
+              {!loading && time}
+              {/* {!loading && time.Minutes
                 ? time.Minutes + 'min ' + time.Seconds + 'secs ago'
-                : time.Seconds + 'secs ago'}
+                : time.Seconds + 'secs ago'} */}
             </TimeStampBox>
           </HashTimestampBox>
           <FromToDiv>
