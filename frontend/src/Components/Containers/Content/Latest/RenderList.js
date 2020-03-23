@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import BlockItem from './BlockItems';
-import TxsItems from './TxsItems';
+import TxsItems from './TxItems';
 import { LATESTBLOCKS, LATESTTXS } from '../../../../Action/ActionTypes';
 import { GetApi } from '../../../../Action/api/Get';
 
