@@ -1,0 +1,10 @@
+export const LATESTBLOCKS = 'LATESTBLOCKS';
+export const LATESTTXS = 'LATESTTXS';
+export const BLOCKSALL = 'VIEWBLOCKSALL';
+export const TXSALL = 'VIEWTXSALL';
+export const DETAILBLOCK = 'DETAILBLOCK';
+export const DETAILTX = 'DETAILTX';
+export const CHANGEBLOCK = 'CHANGEBLOCK';
+export const CHANGETX = 'CHANGETX';
+export const MAINTIME = 'MAINTIME';
+export const VIEWTIME = 'VIEWTIME';
