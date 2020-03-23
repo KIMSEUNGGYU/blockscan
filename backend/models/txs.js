@@ -15,7 +15,15 @@ const getSpecificTxs = async (p, pn) => {
   return rows
 }
 
+const getTxHashInfo = async (txHash) => {
+  const [rows, fields] = await pool.query(
+    `SELECT * FROM txs WHERE hash = '${txHash}'`
+  )
+  return rows
+}
+
 module.exports = {
   getSpecificTxs,
   listOfRecentTxs,
+  getTxHashInfo
 };

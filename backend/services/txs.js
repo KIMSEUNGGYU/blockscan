@@ -1,4 +1,4 @@
-const { listOfRecentTxs, getSpecificTxs } = require('../models/txs');
+const { listOfRecentTxs, getSpecificTxs, getTxHashInfo } = require('../models/txs');
 const { hexToInt } = require('../helper/translate');
 
 const SECOND = 1000;
@@ -38,7 +38,13 @@ const parseSpecificTxs = async (p, pn) => {
     return txs;
 }
 
+const parseTxHashInfo = async (txhash) => {
+    const rows = await getTxHashInfo(txhash);
+    return rows
+}
+
 module.exports = {
     parseSpecificTxs,
-    parseTxs
+    parseTxs,
+    parseTxHashInfo
 };
