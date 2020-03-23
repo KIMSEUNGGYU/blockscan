@@ -5,6 +5,7 @@ import ReturnList from '../Latest/ReturnList';
 import ReturnSearchBar from '../SearchBar/ReturnSearchBar';
 import ReturnSponsoredTitle from '../Title/ReturnSponsoredTitle';
 import ReturnBanner from '../Banner';
+import ReturnEtherInfo from '../EtherInformation/ReturnEtherInfo';
 
 const SectionBottom = styled.div`
   height: 60px;
@@ -15,6 +16,7 @@ const RenderIndex = () => {
     <>
       <ReturnSponsoredTitle />
       <ReturnSearchBar />
+      <ReturnEtherInfo />
       <ReturnBanner />
       <ReturnList />
       <SectionBottom />

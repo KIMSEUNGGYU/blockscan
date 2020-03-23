@@ -22,13 +22,11 @@ const A = styled.a``;
 
 export default () => {
   return (
-    <A href='https://www.notion.so/IGMM-BLOCK-EXPLORER-88a81bf42fbc40b2b614724562dde11b'>
+    <A
+      href='https://www.notion.so/IGMM-BLOCK-EXPLORER-88a81bf42fbc40b2b614724562dde11b'
+      target='_blank'>
       <BannerDiv>
-        {/* <BannerBox> */}
-
         <BannerImg src={banner} />
-
-        {/* </BannerBox> */}
       </BannerDiv>
     </A>
   );

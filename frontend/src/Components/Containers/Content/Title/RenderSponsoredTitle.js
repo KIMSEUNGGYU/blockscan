@@ -21,7 +21,9 @@ const Sponsored = () => {
     <Title>
       <TitleText>
         Sponsored:
-        <Link href={'https://www.notion.so/IGMM-BLOCK-EXPLORER-88a81bf42fbc40b2b614724562dde11b'}>
+        <Link
+          href={'https://www.notion.so/IGMM-BLOCK-EXPLORER-88a81bf42fbc40b2b614724562dde11b'}
+          target='_blank'>
           Visit IGMM Notion
         </Link>
       </TitleText>

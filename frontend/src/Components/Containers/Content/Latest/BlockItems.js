@@ -93,6 +93,16 @@ const EthBox = styled.div`
   align-items: center;
 `;
 
+const A = styled.a`
+  color: #3498db;
+  text-decoration: none;
+  &:hover {
+    cursor: pointer;
+    color: #3498db;
+    font-weight: 500;
+  }
+`;
+
 const BlockItems = ({ index, number, timestamp, miner, txCount, blockReward }) => {
   const [loading, setLoading] = useState();
   const [time, setTime] = useState({
@@ -125,7 +135,11 @@ const BlockItems = ({ index, number, timestamp, miner, txCount, blockReward }) =
             <BlockIconBox>BK</BlockIconBox>
           </BlockIconDiv>
           <NumberElapseDiv>
-            <NumberBox>{number}</NumberBox>
+            <NumberBox>
+              <A href={`/block/${number}`}  >
+                {number}
+              </A>
+            </NumberBox>
             <ElapseBox>
               {loading && null}
               {!loading && time.Minutes
