@@ -136,9 +136,7 @@ const BlockItems = ({ index, number, timestamp, miner, txCount, blockReward }) =
           </BlockIconDiv>
           <NumberElapseDiv>
             <NumberBox>
-              <A href={`/block/${number}`}  >
-                {number}
-              </A>
+              <A href={`/block/${number}`}>{number}</A>
             </NumberBox>
             <ElapseBox>
               {loading && null}
