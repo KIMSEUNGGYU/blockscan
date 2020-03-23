@@ -8,7 +8,6 @@ const { corsProcess } = require('./services/cors');
 const indexRouter = require('./router/index');
 const blocksRouter = require('./router/blocks');
 const txsRouter = require('./router/txs');
-const { corsProcess } = require('./services/cors');
 const blockRouter = require('./router/block');
 
 const app = express();
