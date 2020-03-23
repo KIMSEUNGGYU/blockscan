@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { darken, lighten } from 'polished';
 import axios from 'axios';
-import hexToString from '../../../../helper/translate';
+import { hexToString, translateTimestamp } from '../../../../helper/translate';
 
 const DetailSection = styled.div`
   width: 100%;
@@ -223,7 +223,7 @@ const RenderDetail = ({ match }) => {
           </ContentItems>
           <ContentItems>
             <ItemTitle> Timestamp: </ItemTitle>
-            <ItemValue> {timestamp}</ItemValue>
+            <ItemValue> {translateTimestamp(timestamp)}</ItemValue>
           </ContentItems>
           <ContentItems>
             <ItemTitle> Transactions: </ItemTitle>
