@@ -23,7 +23,6 @@ const parseBlocks = async () => {
   return blocks;
 };
 
-console.log();
 const parseTxs = async () => {
   const rows = await listOfRecentTxs();
   const txs = [];

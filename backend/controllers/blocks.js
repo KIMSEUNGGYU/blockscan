@@ -1,4 +1,4 @@
-const { parseBlockList } = require('../services/blocks');
+const { parseBlockList, getTotalBlocks } = require('../services/blocks');
 const { viewBlocks } = require('../views/blocks');
 const { viewWrongRequest, viewNotFoundData } = require('../views/error');
 
@@ -13,14 +13,18 @@ const controllerBlocks = async (req, res, next) => {
   }
 
   const blocks = await parseBlockList(pn, p);
+  // const totalBlocks = await getTotalBlock();
   // 찾을수 없음(데이터) 404
   if (!blocks.length) {
     res.json(viewNotFoundData());
     return;
   }
 
+  const totalBlock = await getTotalBlocks();
+
+  console.log(totalBlock);
   // 정상적인 처리
-  res.json(viewBlocks(blocks));
+  res.json(viewBlocks(blocks, totalBlock));
 };
 
 module.exports = {

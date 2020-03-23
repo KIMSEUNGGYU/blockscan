@@ -19,7 +19,13 @@ const listOfBlocks = async (start, pageNumber) => {
   return rows;
 };
 
+const totalBlocks = async () => {
+  const [rows, fields] = await pool.query(`select count(*) as totalBlock from blocks`);
+  return rows;
+};
+
 module.exports = {
   listOfRecentBlocks,
   listOfBlocks,
+  totalBlocks,
 };

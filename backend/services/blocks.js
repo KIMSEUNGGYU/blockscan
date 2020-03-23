@@ -1,4 +1,4 @@
-const { listOfBlocks } = require('../models/blocks');
+const { listOfBlocks, totalBlocks } = require('../models/blocks');
 const { hexToInt, numberWithCommas } = require('../helper/translate');
 const SECOND = 1000;
 
@@ -38,6 +38,15 @@ const parseBlockList = async (pn, p) => {
   return blocks;
 };
 
+const getTotalBlocks = async () => {
+  const rows = await totalBlocks();
+
+  const { totalBlock } = rows[0];
+
+  return totalBlock;
+};
+
 module.exports = {
   parseBlockList,
+  getTotalBlocks,
 };
