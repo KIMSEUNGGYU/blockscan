@@ -75,6 +75,7 @@ const parseTxHashInfo = async txhash => {
     txfee: parseFloat(web3Utils.fromWei(hexToInt(txfee).toString())),
     gasused: numberWithCommas(hexToInt(gasused)),
     gaslimit: numberWithCommas(hexToInt(gaslimit)),
+    gasprice: parseFloat(web3Utils.fromWei(hexToInt(gasprice).toString())),
     nonce: hexToInt(nonce),
     inputdata,
     index,
