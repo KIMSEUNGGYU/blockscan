@@ -92,13 +92,21 @@ const RenderList = () => {
     return true;
   }
 
-  useEffect(() => {
-    const result1 = GetBlock(LATESTBLOCKS);
-    const result2 = GetTxs(LATESTTXS);
+  const requestData = async () => {
+    const result1 = await GetBlock(LATESTBLOCKS);
+    const result2 = await GetTxs(LATESTTXS);
     if (result1 && result2) {
       setLoading(false);
     }
+  };
+  useEffect(() => {
+    requestData();
   }, [loading]);
+
+  setInterval(() => {
+    console.log('test');
+    requestData();
+  }, 15 * 1000);
 
   return (
     <StyledDiv>
