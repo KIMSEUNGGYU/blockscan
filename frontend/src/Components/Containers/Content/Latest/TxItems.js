@@ -3,24 +3,24 @@ import styled from 'styled-components';
 import { MAINTIME } from '../../../../Action/ActionTypes';
 import { GetTime } from '../../../../Action/Time';
 
-const BlockItem = styled.div``;
+const TxsItem = styled.div``;
 
-const BlockInner = styled.div`
+const TxsInner = styled.div`
   border-bottom: 0.5px solid #e7eaf3;
   margin-bottom: 12px;
 `;
 
-const BlockBox = styled.div`
+const TxsBox = styled.div`
   display: flex;
   margin-bottom: 12px;
 `;
 
-const BlockIconDiv = styled.div`
+const TxsIconDiv = styled.div`
   margin-right: 8px;
   display: flex;
 `;
 
-const BlockIconBox = styled.div`
+const TxsIconBox = styled.div`
   cursor: default;
   width: 38.609px;
   height: 38.609px;
@@ -32,21 +32,24 @@ const BlockIconBox = styled.div`
   user-select: none;
 `;
 
-const NumberElapseDiv = styled.div`
+const HashTimestampBox = styled.div`
   width: 119.375px;
   display: block;
 `;
 
-const NumberBox = styled.div`
+const HashBox = styled.div`
+  max-width: 132px;
+  overflow: hidden;
+  text-overflow: ellipsis;
   color: #3498db;
   cursor: pointer;
 `;
 
-const ElapseBox = styled.div`
+const TimeStampBox = styled.div`
   color: #77838f;
 `;
 
-const MinerTxEthDiv = styled.div`
+const FromToDiv = styled.div`
   width: 391px;
   padding-left: 7.5px;
   display: flex;
@@ -54,16 +57,15 @@ const MinerTxEthDiv = styled.div`
   align-items: center;
 `;
 
-const MinerTxDiv = styled.div`
+const TxDiv = styled.div`
   display: block;
 `;
 
-const MinerBox = styled.div`
+const FromBox = styled.div`
   display: flex;
-  justify-content: space-between;
 `;
 
-const MinerName = styled.a`
+const From = styled.a`
   max-width: 132px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -72,14 +74,20 @@ const MinerName = styled.a`
   cursor: pointer;
 `;
 
-const TxBox = styled.div``;
-
-const TxCount = styled.a`
-  color: #3498db;
-  cursor: pointer;
+const ToBox = styled.div`
+  max-width: 132px;
+  display: flex;
 `;
 
-const EthBox = styled.div`
+const To = styled.a`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #3498db;
+  cursor: pointer;
+  margin-left: 4px;
+`;
+
+const TxFeeBox = styled.div`
   max-width: 132px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -93,15 +101,15 @@ const EthBox = styled.div`
   align-items: center;
 `;
 
-const BlockItems = ({ index, number, timestamp, miner, txCount, blockReward }) => {
+const TxsItems = ({ index, hash, timestamp, from, to, txFee }) => {
   const [loading, setLoading] = useState();
   const [time, setTime] = useState({
     Seconds: 0,
     Minutes: null,
   });
 
-  if (blockReward != null) {
-    blockReward = blockReward.toFixed(5);
+  if (txFee != null) {
+    txFee = txFee.toFixed(5);
   }
 
   function TimeCount() {
@@ -118,37 +126,38 @@ const BlockItems = ({ index, number, timestamp, miner, txCount, blockReward }) =
   }, [time]);
 
   return (
-    <BlockItem>
-      <BlockInner style={index === 9 ? { marginBottom: '0px', borderBottom: '0px' } : null}>
-        <BlockBox>
-          <BlockIconDiv>
-            <BlockIconBox>BK</BlockIconBox>
-          </BlockIconDiv>
-          <NumberElapseDiv>
-            <NumberBox>{number}</NumberBox>
-            <ElapseBox>
+    <TxsItem>
+      <TxsInner style={index === 9 ? { marginBottom: '0px', borderBottom: '0px' } : null}>
+        <TxsBox>
+          <TxsIconDiv>
+            <TxsIconBox>TX</TxsIconBox>
+          </TxsIconDiv>
+          <HashTimestampBox>
+            <HashBox>{hash}</HashBox>
+            <TimeStampBox>
               {loading && null}
               {!loading && time.Minutes
                 ? time.Minutes + 'min ' + time.Seconds + 'secs ago'
                 : time.Seconds + 'secs ago'}
-            </ElapseBox>
-          </NumberElapseDiv>
-          <MinerTxEthDiv>
-            <MinerTxDiv>
-              <MinerBox>
-                Miner
-                <MinerName>{miner}</MinerName>
-              </MinerBox>
-              <TxBox>
-                <TxCount> {txCount} txns</TxCount>
-              </TxBox>
-            </MinerTxDiv>
-            <EthBox> {blockReward}Eth</EthBox>
-          </MinerTxEthDiv>
-        </BlockBox>
-      </BlockInner>
-    </BlockItem>
+            </TimeStampBox>
+          </HashTimestampBox>
+          <FromToDiv>
+            <TxDiv>
+              <FromBox>
+                From
+                <From>{from}</From>
+              </FromBox>
+              <ToBox>
+                To
+                <To> {to}</To>
+              </ToBox>
+            </TxDiv>
+            <TxFeeBox> {txFee}Eth</TxFeeBox>
+          </FromToDiv>
+        </TxsBox>
+      </TxsInner>
+    </TxsItem>
   );
 };
 
-export default BlockItems;
+export default TxsItems;
