@@ -27,12 +27,14 @@ const parseSpecificTxs = async (p, pn) => {
   const txs = [];
 
   for (row of rows) {
-    const { hash, timestamp, from, to, txfee } = row;
+    const { hash, blocksnumber, timestamp, from, to, value, txfee } = row;
     txs.push({
       hash,
+      blocksnumber: hexToInt(blocksnumber),
       timestamp: hexToInt(timestamp) * SECOND,
       from,
       to,
+      value: parseFloat(web3Utils.fromWei(hexToInt(value).toString())),
       txfee: parseFloat(web3Utils.fromWei(hexToInt(txfee).toString())),
     });
   }
