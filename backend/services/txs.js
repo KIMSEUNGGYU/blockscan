@@ -33,7 +33,7 @@ const parseSpecificTxs = async (p, pn) => {
       timestamp: hexToInt(timestamp) * SECOND,
       from,
       to,
-      txfee,
+      txfee: parseFloat(web3Utils.fromWei(hexToInt(txfee).toString())),
     });
   }
 
