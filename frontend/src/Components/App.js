@@ -4,7 +4,8 @@ import styled, { ThemeProvider } from 'styled-components';
 import GlobalStyle from '../Styles/GlobalStyle';
 import Theme from '../Styles/Theme';
 import Header from './Containers/Header/ReturnHeader';
-import Detail from './Containers/Content/Detail/ReturnDetail';
+import DetailBlock from './Containers/Content/Detail/ReturnDetail';
+import DetailTx from './Containers/Content/Detail/ReturnDetailTxs';
 import Index from './Containers/Content/Index/ReturnIndex';
 import Footer from './Containers/Footer/ReturnFooter';
 
@@ -25,7 +26,8 @@ const App = () => {
         <MainInner>
           {/* <Index /> */}
           <Route path='/' exact={true} component={Index} />
-          <Route path='/block/:blockNumber' component={Detail} />
+          <Route path='/block/:blockNumber' component={DetailBlock} />
+          <Route path='/txs/:txHash' component={DetailTx} />
         </MainInner>
       </Main>
       <Footer />
