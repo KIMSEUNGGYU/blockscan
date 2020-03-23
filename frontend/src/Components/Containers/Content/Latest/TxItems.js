@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { darken, lighten } from 'polished';
 import { MAINTIME } from '../../../../Action/ActionTypes';
 import { GetTime } from '../../../../Action/Time';
 
@@ -101,6 +102,16 @@ const TxFeeBox = styled.div`
   align-items: center;
 `;
 
+const A = styled.a`
+  color: #3498db;
+  font-weight: 500;
+  text-decoration: none;
+  &:hover {
+    cursor: pointer;
+    color: ${darken(0.1, '#3498db')};
+  }
+`;
+
 const TxsItems = ({ index, hash, timestamp, from, to, txFee }) => {
   const [loading, setLoading] = useState();
   const [time, setTime] = useState({
@@ -133,7 +144,9 @@ const TxsItems = ({ index, hash, timestamp, from, to, txFee }) => {
             <TxsIconBox>TX</TxsIconBox>
           </TxsIconDiv>
           <HashTimestampBox>
-            <HashBox>{hash}</HashBox>
+            <HashBox>
+              <A href={`/txs/${hash}`}>{hash}</A>
+            </HashBox>
             <TimeStampBox>
               {loading && null}
               {!loading && time.Minutes
