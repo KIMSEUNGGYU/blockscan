@@ -311,7 +311,6 @@ const RenderDetail = ({ match }) => {
           )}
         </ContentItemSection>
       </SectionContents>
-
       <SectionBottom />
     </DetailSection>
   );

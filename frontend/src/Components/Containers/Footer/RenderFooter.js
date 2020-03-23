@@ -10,7 +10,6 @@ const Footer = styled.div`
   font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
   background-image: linear-gradient(150deg, #19a0ff, #2d1582);
   background-attachment: fixed;
-  margin-top: 55px;
 `;
 
 const FooterInner = styled.div`
