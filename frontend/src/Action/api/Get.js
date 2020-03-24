@@ -12,6 +12,16 @@ const GetTxs = data => {
   return txs;
 };
 
+const GetBlockList = data => {
+  const { blocks, totalBlock } = data.result;
+  return { blocks, totalBlock };
+};
+
+const GetTxsList = data => {
+  const { txs } = data.result;
+  return txs;
+};
+
 export const GetApi = async action => {
   let Data;
   const result = await axios.get('http://49.50.162.172/api/v1');
@@ -35,9 +45,10 @@ export const GetAll = async (action, p, pn) => {
   let Data;
   const result = await axios.get('http://49.50.162.172/api/v1/blocks?' + qs.stringify({ p, pn }));
   const data = result.data;
+
   switch (action) {
     case types.BLOCKSALL: {
-      Data = GetBlocks(data);
+      Data = GetBlockList(data);
       break;
     }
     case types.TXSALL: {
@@ -48,5 +59,6 @@ export const GetAll = async (action, p, pn) => {
     default:
       break;
   }
+
   return Data;
 };

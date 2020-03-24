@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import qs from 'qs';
+import { darken, lighten } from 'polished';
 import { BLOCKSALL, VIEWTIME } from '../../../../Action/ActionTypes';
 import { GetAll } from '../../../../Action/api/Get';
 import { GetTime } from '../../../../Action/Time';
@@ -18,10 +18,33 @@ const Title = styled.div`
   border-bottom: 1px solid #e7eaf3;
 `;
 
-const SubTitle = styled.div`
-  font-size: 13px;
-  padding-top: 12px;
+// SECTION OPTION
+const SectionOptions = styled.div`
+  height: 80px;
+  line-height: 80px;
+  font-size: 19px;
+  color: #77838f;
 `;
+
+const B = styled.b`
+  font-weight: bold;
+`;
+
+const A = styled.a`
+  color: #3498db;
+  /* font-weight: 900; */
+  text-decoration: none;
+  &:hover {
+    cursor: pointer;
+    color: ${darken(0.1, '#3498db')};
+    font-weight: 600;
+  }
+`;
+
+// const SubTitle = styled.div`
+//   font-size: 13px;
+//   padding-top: 12px;
+// `;
 
 const ContentBox = styled.div`
   background-color: white;
@@ -135,10 +158,9 @@ const StyeldSelect = styled.select`
   border-color: #e7eaf3;
 `;
 
-const RenderBlocksList = () => {
-  // const query = qs.parse(location.search, { ignoreQueryPrefix: true });
-  const [option, setOption] = useState(25);
-  const [page, setPage] = useState(1);
+const RenderBlocksList = ({ pn, p }) => {
+  const [option, setOption] = useState(pn);
+  const [page, setPage] = useState(p);
   const [blocks, setBlocks] = useState([
     {
       number: null,
@@ -152,11 +174,14 @@ const RenderBlocksList = () => {
       gasUsedPercent: null,
     },
   ]);
+  const [totalBlock, setTotalBlock] = useState(0);
+  const [endPage, setEndPage] = useState(1);
   const [loading, setLoading] = useState(true);
 
   async function GetBlocks() {
-    const data = await GetAll(BLOCKSALL, page, option);
-    setBlocks(data);
+    const { blocks, totalBlock } = await GetAll(BLOCKSALL, page, option);
+    setBlocks(blocks);
+    setTotalBlock(totalBlock);
     setLoading(false);
   }
 
@@ -171,19 +196,27 @@ const RenderBlocksList = () => {
 
   const handleChange = e => {
     setOption(e.target.value);
+    window.location.href = `/blocks?pn=${e.target.value}&p=${p}`;
   };
 
   useEffect(() => {
     GetBlocks();
-  }, [option]);
+    setEndPage(parseInt(totalBlock / pn) + 1);
+  }, [blocks]);
+
+  useEffect(() => {
+    setOption(pn);
+    setPage(p);
+  }, [pn, p]);
 
   return (
     <ListDiv>
       <TitleInner>
         <Title>Blocks</Title>
-        <SubTitle>
-          💡 Feature Tip: Track historical data points of any address with the analytics module !
-        </SubTitle>
+        <SectionOptions>
+          💡 <B>Feature Tip</B>: Browse all your{' '}
+          <A href='https://etherscan.io/dapp'>favourite Dapps here</A> on Blockscan! 😍
+        </SectionOptions>
       </TitleInner>
       <ContentBox>
         <ContentInner>
@@ -193,39 +226,60 @@ const RenderBlocksList = () => {
               <NavigationBox>
                 <NavigationButton>
                   <NavigationText
-                    // to='/blocks'
+                    to={`/blocks?pn=${pn}&p=1`}
                     style={
-                      page === 1
+                      parseInt(page) === 1
                         ? { color: '#8c98a4', cursor: 'default', pointerevents: 'none' }
                         : { color: '#3498db' }
                     }
                     disable={page === 1 ? true : false}>
                     First
                   </NavigationText>
-                  <NavigationText
-                    // to={`/blocks?p=${query.page - 1}`}
-                    style={
-                      page === 1
-                        ? { color: '#8c98a4', cursor: 'default', pointerevents: 'none' }
-                        : { color: '#3498db' }
-                    }
-                    disable={page === 1 ? true : false}>
-                    &lt;
-                  </NavigationText>
+                  {page === '1' ? (
+                    <NavigationText
+                      to={`/blocks?pn=${pn}&p=1`}
+                      disable={parseInt(page) === 1 ? true : false}>
+                      &lt;
+                    </NavigationText>
+                  ) : (
+                    <NavigationText
+                      to={`/blocks?pn=${pn}&p=${parseInt(p) - 1}`}
+                      style={{ color: '#3498db' }}>
+                      &lt;
+                    </NavigationText>
+                  )}
                   <NavigationText
                     disable={true}
                     style={{ cursor: 'default', pointerevents: 'none' }}>
-                    Page {page} of 388767
+                    Page {page} of {endPage}
                   </NavigationText>
-                  <NavigationText
-                    // to={`/blocks?p=${query.page + 1}`}
+                  {parseInt(page) === parseInt(endPage) ? (
+                    <NavigationText
+                      to={`/blocks?pn=${pn}&p=${endPage}`}
+                      disable={parseInt(page) === parseInt(endPage) ? true : false}>
+                      &gt;
+                    </NavigationText>
+                  ) : (
+                    <NavigationText
+                      to={`/blocks?pn=${pn}&p=${parseInt(p) + 1}`}
+                      style={{ color: '#3498db' }}>
+                      &gt;
+                    </NavigationText>
+                  )}
+                  {/* <NavigationText
+                    to={`/blocks?pn=${pn}&p=${parseInt(p) + 1}`}
                     style={page === 1 ? { color: '#8c98a4' } : { color: '#3498db' }}
                     disable={page === 1 ? true : false}>
                     &gt;
-                  </NavigationText>
+                  </NavigationText> */}
                   <NavigationText
-                    style={page === 1 ? { color: '#8c98a4' } : { color: '#3498db' }}
-                    disable={page === 1 ? true : false}>
+                    to={`/blocks?pn=${pn}&p=${endPage}`}
+                    style={
+                      parseInt(page) === parseInt(endPage)
+                        ? { color: '#8c98a4' }
+                        : { color: '#3498db' }
+                    }
+                    disable={parseInt(page) === parseInt(endPage) ? true : false}>
                     Last
                   </NavigationText>
                 </NavigationButton>
@@ -249,7 +303,10 @@ const RenderBlocksList = () => {
               </BlockAttributeBox>
               <StyledTableBody>
                 {loading && null}
-                {!loading &&
+                {!blocks ? (
+                  <div>데이터가 존재하지 않습니다.. </div>
+                ) : (
+                  !loading &&
                   blocks.map((data, index) => {
                     const Time = GetTime(data.timestamp, VIEWTIME);
                     const Reward = CuttingData(data.blockReward, 5);
@@ -273,13 +330,13 @@ const RenderBlocksList = () => {
                             : 0 + ' secs ago'}
                         </Styledtd>
                         <Styledtd width={'5%'}>
-                          <StyledLink to={`/txs?block=${data.number}`}>{data.txCount}</StyledLink>
+                          <A>{data.txCount}</A>
                         </Styledtd>
                         <Styledtd width={'5%'} padding={0}>
                           {data.uncles}
                         </Styledtd>
                         <Styledtd width={'11%'}>
-                          <StyledLink to={`/address/${data.miner}`}>{data.miner}</StyledLink>
+                          <A>{data.miner}</A>
                         </Styledtd>
                         <Styledtd width={'8%'}>{data.gasUsed}</Styledtd>
                         <Styledtd width={'6%'}>{data.gasLimit}</Styledtd>
@@ -288,7 +345,8 @@ const RenderBlocksList = () => {
                         {/* <Styledtd>{data.gasUsedPercent}</Styledtd> */}
                       </Styledtr>
                     );
-                  })}
+                  })
+                )}
               </StyledTableBody>
             </BlockListTable>
           </BlockListBox>
@@ -308,11 +366,63 @@ const RenderBlocksList = () => {
             <Navigation>
               <NavigationBox>
                 <NavigationButton>
-                  {/* <NavigationText>First</NavigationText>
-                  <NavigationText onClick={deCrease}>&lt;</NavigationText>
-                  <NavigationText>Page 1 of 388767</NavigationText>
-                  <NavigationText onClick={inCrease}>&gt;</NavigationText>
-                  <NavigationText>Last</NavigationText> */}
+                  <NavigationText
+                    to={`/blocks?pn=${pn}&p=1`}
+                    style={
+                      parseInt(page) === 1
+                        ? { color: '#8c98a4', cursor: 'default', pointerevents: 'none' }
+                        : { color: '#3498db' }
+                    }
+                    disable={page === 1 ? true : false}>
+                    First
+                  </NavigationText>
+                  {page === '1' ? (
+                    <NavigationText
+                      to={`/blocks?pn=${pn}&p=1`}
+                      disable={parseInt(page) === 1 ? true : false}>
+                      &lt;
+                    </NavigationText>
+                  ) : (
+                    <NavigationText
+                      to={`/blocks?pn=${pn}&p=${parseInt(p) - 1}`}
+                      style={{ color: '#3498db' }}>
+                      &lt;
+                    </NavigationText>
+                  )}
+                  <NavigationText
+                    disable={true}
+                    style={{ cursor: 'default', pointerevents: 'none' }}>
+                    Page {page} of {endPage}
+                  </NavigationText>
+                  {parseInt(page) === parseInt(endPage) ? (
+                    <NavigationText
+                      to={`/blocks?pn=${pn}&p=${endPage}`}
+                      disable={parseInt(page) === parseInt(endPage) ? true : false}>
+                      &gt;
+                    </NavigationText>
+                  ) : (
+                    <NavigationText
+                      to={`/blocks?pn=${pn}&p=${parseInt(p) + 1}`}
+                      style={{ color: '#3498db' }}>
+                      &gt;
+                    </NavigationText>
+                  )}
+                  {/* <NavigationText
+                    to={`/blocks?pn=${pn}&p=${parseInt(p) + 1}`}
+                    style={page === 1 ? { color: '#8c98a4' } : { color: '#3498db' }}
+                    disable={page === 1 ? true : false}>
+                    &gt;
+                  </NavigationText> */}
+                  <NavigationText
+                    to={`/blocks?pn=${pn}&p=${endPage}`}
+                    style={
+                      parseInt(page) === parseInt(endPage)
+                        ? { color: '#8c98a4' }
+                        : { color: '#3498db' }
+                    }
+                    disable={parseInt(page) === parseInt(endPage) ? true : false}>
+                    Last
+                  </NavigationText>
                 </NavigationButton>
               </NavigationBox>
             </Navigation>
