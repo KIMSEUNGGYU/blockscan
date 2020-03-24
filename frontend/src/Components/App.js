@@ -8,6 +8,7 @@ import Footer from './Containers/Footer/ReturnFooter';
 import DetailBlock from './Containers/Content/Detail/ReturnDetail';
 import DetailTx from './Containers/Content/Detail/ReturnDetailTxs';
 import ReturnBlocksList from './Containers/Content/List/ReturnBlocksList';
+import ReturnTxsList from './Containers/Content/List/ReturnTxsList';
 import Index from './Containers/Content/Index/ReturnIndex';
 
 const Main = styled.div`
@@ -29,7 +30,7 @@ const App = () => {
           <Route path='/' exact={true} component={Index} />
           <Route path='/blocks/' exact={true} component={ReturnBlocksList} />
           <Route path='/block/:blockNumber' component={DetailBlock} />
-          {/* <Route path='/txs/' exact={true} component={ReturnTxsList} /> */}{' '}
+          <Route path='/txs/' exact={true} component={ReturnTxsList} />
           {/* 해당 부분이 txsList 컴포넌트*/}
           <Route path='/txs/:txHash' component={DetailTx} />
         </MainInner>

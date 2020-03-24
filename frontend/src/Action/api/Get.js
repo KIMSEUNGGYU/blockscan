@@ -19,7 +19,9 @@ const GetBlockList = data => {
 
 const GetTxsList = data => {
   const { txs } = data.result;
-  return txs;
+  // const { txs, totalTx } = data.result;
+  // return {txs, totalTx}
+  return { txs };
 };
 
 export const GetApi = async action => {
@@ -51,14 +53,24 @@ export const GetAll = async (action, p, pn) => {
       Data = GetBlockList(data);
       break;
     }
+    default:
+      break;
+  }
+  return Data;
+};
+
+export const GetTxAll = async (action, p, pn) => {
+  let Data;
+  const result = await axios.get('http://49.50.162.172/api/v1/txs?' + qs.stringify({ p, pn }));
+  const data = result.data;
+
+  switch (action) {
     case types.TXSALL: {
-      console.log('Alltxs');
-      Data = GetTxs(data);
+      Data = GetTxsList(data);
       break;
     }
     default:
       break;
   }
-
   return Data;
 };
