@@ -1,4 +1,4 @@
-const { parseSpecificTxs, parseTxHashInfo } = require('../services/txs');
+const { parseSpecificTxs, parseTxHashInfo, getTotalTxs } = require('../services/txs');
 const { viewTxs, viewTxInfo } = require('../views/txs');
 const { viewWrongRequest, viewNotFoundData } = require('../views/error');
 
@@ -17,7 +17,9 @@ const controllerTxs = async (req, res, next) => {
     return;
   }
 
-  res.json(viewTxs(txs));
+  const totalTx = await getTotalTxs();
+
+  res.json(viewTxs(txs, totalTx));
 };
 
 const controllerTxDetail = async (req, res, next) => {

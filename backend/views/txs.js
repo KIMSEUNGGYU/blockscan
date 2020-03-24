@@ -1,10 +1,11 @@
-const viewTxs = txs => {
+const viewTxs = (txs, totalTx) => {
   return {
     code: 200,
     status: 'success',
     message: 'Transaction list response',
     result: {
       txs,
+      totalTx,
     },
     total: txs.length,
   };

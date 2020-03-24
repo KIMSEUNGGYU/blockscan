@@ -19,8 +19,14 @@ const getTxHashInfo = async txHash => {
   return rows[0];
 };
 
+const totalTxs = async () => {
+  const [rows, fields] = await pool.query(`select count(*) as totalTx from txs`);
+  return rows;
+};
+
 module.exports = {
   getSpecificTxs,
   listOfRecentTxs,
   getTxHashInfo,
+  totalTxs,
 };

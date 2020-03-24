@@ -1,6 +1,6 @@
 const web3Utils = require('web3-utils');
 
-const { listOfRecentTxs, getSpecificTxs, getTxHashInfo } = require('../models/txs');
+const { listOfRecentTxs, getSpecificTxs, getTxHashInfo, totalTxs } = require('../models/txs');
 const { hexToInt, numberWithCommas } = require('../helper/translate');
 
 const SECOND = 1000;
@@ -84,8 +84,17 @@ const parseTxHashInfo = async txhash => {
   //   return transaction;
 };
 
+const getTotalTxs = async () => {
+  const rows = await totalTxs();
+
+  const { totalTx } = rows[0];
+
+  return totalTx;
+};
+
 module.exports = {
   parseSpecificTxs,
   parseTxs,
   parseTxHashInfo,
+  getTotalTxs,
 };
