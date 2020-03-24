@@ -58,10 +58,10 @@ const RenderHeader = () => {
             <A href='/'>Home</A>
           </HeaderMenuBox>
           <HeaderMenuBox>
-            <A href={`/blocks?pn=1&p=1`}>Blocks</A>
+            <A href={`/blocks?pn=25&p=1`}>Blocks</A>
           </HeaderMenuBox>
           <HeaderMenuBox>
-            <A href={`/txs?pn=1&p=1`}>Transactions</A>
+            <A href={`/txs?pn=25&p=1`}>Transactions</A>
           </HeaderMenuBox>
           <HeaderMenuBox>Resources</HeaderMenuBox>
           <HeaderMenuBox>More</HeaderMenuBox>

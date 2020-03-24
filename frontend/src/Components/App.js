@@ -29,6 +29,8 @@ const App = () => {
           <Route path='/' exact={true} component={Index} />
           <Route path='/blocks/' exact={true} component={ReturnBlocksList} />
           <Route path='/block/:blockNumber' component={DetailBlock} />
+          {/* <Route path='/txs/' exact={true} component={ReturnTxsList} /> */}{' '}
+          {/* 해당 부분이 txsList 컴포넌트*/}
           <Route path='/txs/:txHash' component={DetailTx} />
         </MainInner>
       </Main>
