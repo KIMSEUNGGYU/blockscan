@@ -4,20 +4,31 @@ import { Link } from 'react-router-dom';
 import { darken, lighten } from 'polished';
 import { TXSALL, VIEWTIME } from '../../../../Action/ActionTypes';
 import { GetTxAll } from '../../../../Action/api/Get';
-import {} from '../../../../Action/api/Get';
 import { GetTime } from '../../../../Action/Time';
 
 const ListDiv = styled.div``;
+// SECTION TITLE
+const SectionTitle = styled.div`
+  height: 80px;
+  line-height: 80px;
+  background-color: #f8f9fa;
+  display: flex;
+  border-bottom: 2px solid ${darken(0.1, '#f8f9fa')};
+`;
+
+const Title = styled.h1`
+  font-size: 30px;
+`;
 
 const TitleInner = styled.div`
   padding: 12px 0;
 `;
 
-const Title = styled.div`
-  font-size: 19.5px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid #e7eaf3;
-`;
+// const Title = styled.div`
+//   font-size: 19.5px;
+//   padding-bottom: 12px;
+//   border-bottom: 1px solid #e7eaf3;
+// `;
 
 // SECTION OPTION
 const SectionOptions = styled.div`
@@ -173,15 +184,15 @@ const RenderTxsList = ({ pn, p }) => {
       txfee: null,
     },
   ]);
-  const [totalTxs, setTotalTxs] = useState(0);
+  const [totalTx, setTotalTxs] = useState(0);
   const [endPage, setEndPage] = useState(1);
   const [loading, setLoading] = useState(true);
 
   async function GetTxs() {
-    const { txs } = await GetTxAll(TXSALL, page, option);
-    // const { txs, totalTxs } = await GetTxAll(TXSALL, page, option);
+    // const { txs } = await GetTxAll(TXSALL, page, option);
+    const { txs, totalTx } = await GetTxAll(TXSALL, page, option);
 
-    // setTotalTxs(totalTxs);
+    setTotalTxs(totalTx);
     if (txs != undefined) {
       setTxs(txs);
       setLoading(false);
@@ -204,7 +215,7 @@ const RenderTxsList = ({ pn, p }) => {
 
   useEffect(() => {
     GetTxs();
-    // setEndPage(parseInt(totalTxs / pn) + 1);
+    setEndPage(parseInt(totalTx / pn) + 1);
   }, [txs]);
 
   useEffect(() => {
@@ -214,13 +225,20 @@ const RenderTxsList = ({ pn, p }) => {
 
   return (
     <ListDiv>
-      <TitleInner>
+      <SectionTitle>
+        <Title> Transactions </Title>
+      </SectionTitle>
+      <SectionOptions>
+        💡 <B>Feature Tip</B>: Browse all your{' '}
+        <A href='https://etherscan.io/dapp'>favourite Dapps here</A> on Blockscan! 😍
+      </SectionOptions>
+      {/* <TitleInner>
         <Title>Transactions</Title>
         <SectionOptions>
           💡 <B>Feature Tip</B>: Browse all your{' '}
           <A href='https://etherscan.io/dapp'>favourite Dapps here</A> on Blockscan! 😍
         </SectionOptions>
-      </TitleInner>
+      </TitleInner> */}
       <ContentBox>
         <ContentInner>
           <ContentTitleNavigationBox>
@@ -314,7 +332,7 @@ const RenderTxsList = ({ pn, p }) => {
                     return (
                       <Styledtr key={index}>
                         <Styledtd width={'6%'}>
-                          <A>{data.hash}</A>
+                          <A href={`/txs/${data.hash}`}>{data.hash}</A>
                         </Styledtd>
                         <Styledtd width={'5%'}>
                           <StyledLink to={`/block/${data.blocksnumber}`}>

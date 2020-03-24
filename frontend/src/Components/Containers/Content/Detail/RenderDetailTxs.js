@@ -177,6 +177,8 @@ const BackgroundDiv = styled.div`
   font-weight: 600;
   font-size: 17px;
 `;
+//  BACKGROUND
+
 const BackgroundSpan = styled.span`
   padding: 0 10px;
   border-radius: 7px;
@@ -287,7 +289,7 @@ const RenderDetailTxs = ({ match }) => {
           <ContentItems>
             <ItemTitle> Value: </ItemTitle>
             <ItemValue>
-              <BackgroundDiv>{value} Ether </BackgroundDiv>
+              <BackgroundSpan>{value} Ether </BackgroundSpan>
             </ItemValue>
           </ContentItems>
           <ContentItems>

@@ -18,10 +18,11 @@ const GetBlockList = data => {
 };
 
 const GetTxsList = data => {
-  const { txs } = data.result;
-  // const { txs, totalTx } = data.result;
-  // return {txs, totalTx}
-  return { txs };
+  // const { txs } = data.result;
+  const { txs, totalTx } = data.result;
+  return { txs, totalTx };
+
+  // return { txs };
 };
 
 export const GetApi = async action => {

@@ -7,16 +7,34 @@ import { GetAll } from '../../../../Action/api/Get';
 import { GetTime } from '../../../../Action/Time';
 
 const ListDiv = styled.div``;
+// SECTION TITLE
+const SectionTitle = styled.div`
+  height: 80px;
+  line-height: 80px;
+  background-color: #f8f9fa;
+  display: flex;
+  border-bottom: 2px solid ${darken(0.1, '#f8f9fa')};
+`;
+
+const Title = styled.h1`
+  font-size: 30px;
+`;
+
+const SubTitle = styled.p`
+  margin-left: 15px;
+  font-size: 23px;
+  color: #77838f;
+`;
 
 const TitleInner = styled.div`
   padding: 12px 0;
 `;
 
-const Title = styled.div`
-  font-size: 19.5px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid #e7eaf3;
-`;
+// const Title = styled.div`
+//   font-size: 19.5px;
+//   padding-bottom: 12px;
+//   border-bottom: 1px solid #e7eaf3;
+// `;
 
 // SECTION OPTION
 const SectionOptions = styled.div`
@@ -211,13 +229,20 @@ const RenderBlocksList = ({ pn, p }) => {
 
   return (
     <ListDiv>
-      <TitleInner>
+      <SectionTitle>
+        <Title> Blocks </Title>
+      </SectionTitle>
+      <SectionOptions>
+        💡 <B>Feature Tip</B>: Browse all your{' '}
+        <A href='https://etherscan.io/dapp'>favourite Dapps here</A> on Blockscan! 😍
+      </SectionOptions>
+      {/* <TitleInner>
         <Title>Blocks</Title>
         <SectionOptions>
           💡 <B>Feature Tip</B>: Browse all your{' '}
           <A href='https://etherscan.io/dapp'>favourite Dapps here</A> on Blockscan! 😍
         </SectionOptions>
-      </TitleInner>
+      </TitleInner> */}
       <ContentBox>
         <ContentInner>
           <ContentTitleNavigationBox>

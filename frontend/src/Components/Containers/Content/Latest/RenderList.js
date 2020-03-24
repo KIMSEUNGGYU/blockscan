@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import BlockItem from './BlockItems';
 import TxsItems from './TxItems';
@@ -57,6 +58,16 @@ const ViewAllButton = styled.button`
   border: none;
   background-color: #eaf4fb;
   color: #3498db;
+`;
+
+const LinkTag = styled(Link)`
+  font-size: 11px;
+  padding: 8px 9.6px;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  background-color: #eaf4fb;
+  text-decoration: none;
+  color: #8c98a4;
 `;
 
 const RenderList = () => {
@@ -131,7 +142,9 @@ const RenderList = () => {
           </StyledSrollBarBox>
         </StyledListBox>
         <ViewAllDiv>
-          <ViewAllButton>View all blocks</ViewAllButton>
+          <ViewAllButton>
+            <LinkTag to={'blocks?pn=25&p=1'}>View all blocks</LinkTag>
+          </ViewAllButton>
         </ViewAllDiv>
       </StyledListInner>
       <StyledListInner>
@@ -156,7 +169,9 @@ const RenderList = () => {
           </StyledSrollBarBox>
         </StyledListBox>
         <ViewAllDiv>
-          <ViewAllButton>View all transactions</ViewAllButton>
+          <ViewAllButton>
+            <LinkTag to={'txs?pn=25&p=1'}>View all transactions</LinkTag>
+          </ViewAllButton>
         </ViewAllDiv>
       </StyledListInner>
     </StyledDiv>
