@@ -316,7 +316,7 @@ const RenderBlocksList = ({ pn, p }) => {
                         <Styledtd width={'5%'}>
                           <StyledLink to={`/block/${data.number}`}>{data.number}</StyledLink>
                         </Styledtd>
-                        <Styledtd width={'9%'}>
+                        <Styledtd width={'12%'}>
                           {Time.Days
                             ? Time.Days + ' days ago ' + Time.Hours + ' hrs ago'
                             : Time.Hours
