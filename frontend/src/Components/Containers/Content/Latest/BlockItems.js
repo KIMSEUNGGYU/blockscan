@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import { MAINTIME } from '../../../../Action/ActionTypes';
-import { GetTime } from '../../../../Action/Time';
+import React from "react";
+import styled from "styled-components";
+import TimeStamBox from "./TimeItems";
 
 const BlockItem = styled.div``;
 
@@ -40,10 +39,6 @@ const NumberElapseDiv = styled.div`
 const NumberBox = styled.div`
   color: #3498db;
   cursor: pointer;
-`;
-
-const ElapseBox = styled.div`
-  color: #77838f;
 `;
 
 const MinerTxEthDiv = styled.div`
@@ -93,45 +88,30 @@ const EthBox = styled.div`
   align-items: center;
 `;
 
-const BlockItems = ({ index, number, timestamp, miner, txCount, blockReward }) => {
-  const [loading, setLoading] = useState();
-  const [time, setTime] = useState({
-    Seconds: 0,
-    Minutes: null,
-  });
-
-  if (blockReward != null) {
-    blockReward = blockReward.toFixed(5);
-  }
-
-  function TimeCount() {
-    setLoading(true);
-    let Timeobj;
-    setInterval(() => {
-      Timeobj = GetTime(timestamp, MAINTIME);
-      setTime(Timeobj);
-    }, 999);
-    setLoading(false);
-  }
-  useEffect(() => {
-    TimeCount();
-  }, [time]);
+const BlockItems = ({
+  index,
+  number,
+  timestamp,
+  miner,
+  txCount,
+  blockReward,
+}) => {
+  blockReward = blockReward.toFixed(5);
 
   return (
     <BlockItem>
-      <BlockInner style={index === 9 ? { marginBottom: '0px', borderBottom: '0px' } : null}>
+      <BlockInner
+        style={
+          index === 9 ? { marginBottom: "0px", borderBottom: "0px" } : null
+        }
+      >
         <BlockBox>
           <BlockIconDiv>
             <BlockIconBox>BK</BlockIconBox>
           </BlockIconDiv>
           <NumberElapseDiv>
             <NumberBox>{number}</NumberBox>
-            <ElapseBox>
-              {loading && null}
-              {!loading && time.Minutes
-                ? time.Minutes + 'min ' + time.Seconds + 'secs ago'
-                : time.Seconds + 'secs ago'}
-            </ElapseBox>
+            <TimeStamBox timestamp={timestamp} />
           </NumberElapseDiv>
           <MinerTxEthDiv>
             <MinerTxDiv>

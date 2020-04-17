@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { MAINTIME } from '../../../../Action/ActionTypes';
-import { GetTime } from '../../../../Action/Time';
+import TimeStamBox from './TimeItems';
 
 const TxsItem = styled.div``;
 
@@ -43,10 +42,6 @@ const HashBox = styled.div`
   text-overflow: ellipsis;
   color: #3498db;
   cursor: pointer;
-`;
-
-const TimeStampBox = styled.div`
-  color: #77838f;
 `;
 
 const FromToDiv = styled.div`
@@ -102,28 +97,7 @@ const TxFeeBox = styled.div`
 `;
 
 const TxsItems = ({ index, hash, timestamp, from, to, txFee }) => {
-  const [loading, setLoading] = useState();
-  const [time, setTime] = useState({
-    Seconds: 0,
-    Minutes: null,
-  });
-
-  if (txFee != null) {
-    txFee = txFee.toFixed(5);
-  }
-
-  function TimeCount() {
-    setLoading(true);
-    let Timeobj;
-    setInterval(() => {
-      Timeobj = GetTime(timestamp, MAINTIME);
-      setTime(Timeobj);
-    }, 999);
-    setLoading(false);
-  }
-  useEffect(() => {
-    TimeCount();
-  }, [time]);
+  txFee = txFee.toFixed(5);
 
   return (
     <TxsItem>
@@ -134,12 +108,7 @@ const TxsItems = ({ index, hash, timestamp, from, to, txFee }) => {
           </TxsIconDiv>
           <HashTimestampBox>
             <HashBox>{hash}</HashBox>
-            <TimeStampBox>
-              {loading && null}
-              {!loading && time.Minutes
-                ? time.Minutes + 'min ' + time.Seconds + 'secs ago'
-                : time.Seconds + 'secs ago'}
-            </TimeStampBox>
+            <TimeStamBox timestamp={timestamp} />
           </HashTimestampBox>
           <FromToDiv>
             <TxDiv>
