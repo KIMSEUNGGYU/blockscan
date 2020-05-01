@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
+
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import BlockItem from './BlockItems';
 import TxsItems from './TxItems';
-import { LATESTBLOCKS, LATESTTXS } from '../../../../Action/ActionTypes';
-import { GetApi } from '../../../../Action/api/Get';
 
 const StyledDiv = styled.div`
   font-size: 0.8125rem;
@@ -52,81 +51,28 @@ const ViewAllDiv = styled.div`
   display: flex;
 `;
 
-const ViewAllButton = styled.button`
+const ViewAllButton = styled(Link)`
   width: 100%;
   padding: 4.8px 9.6px;
   border: none;
   background-color: #eaf4fb;
   color: #3498db;
-`;
-
-const LinkTag = styled(Link)`
-  font-size: 11px;
-  padding: 8px 9.6px;
-  border-top-left-radius: 4px;
-  border-bottom-left-radius: 4px;
-  background-color: #eaf4fb;
   text-decoration: none;
-  color: #8c98a4;
+  text-align: center;
 `;
 
-const RenderList = () => {
-  const [loading, setLoading] = useState(true);
-  const [block, setBlock] = useState([
-    {
-      number: null,
-      timestamp: null,
-      miner: null,
-      txCount: null,
-      blockReward: null,
-    },
-  ]);
-  const [txs, setTxs] = useState([
-    {
-      hash: null,
-      timestamp: null,
-      from: null,
-      to: null,
-      txFee: null,
-    },
-  ]);
-
-  async function GetBlock(action) {
-    const response = await GetApi(action);
-    setBlock(response);
-    return true;
-  }
-
-  async function GetTxs(action) {
-    const response = await GetApi(action);
-    setTxs(response);
-    return true;
-  }
-
-  const requestData = async () => {
-    const result1 = await GetBlock(LATESTBLOCKS);
-    const result2 = await GetTxs(LATESTTXS);
-    if (result1 && result2) {
-      setLoading(false);
-    }
-  };
-  useEffect(() => {
-    requestData();
-  }, [loading]);
-
-  setInterval(() => {
-    requestData();
-  }, 15 * 1000);
-
+const RenderList = ({ REQUESTBLOCKS, REQUESTTXS, Blocks, Txs }) => {
   return (
     <StyledDiv>
       <StyledListInner>
         <StyledTitleBox>Latest Blocks</StyledTitleBox>
         <StyledListBox>
           <StyledSrollBarBox>
-            {loading && null}
-            {!loading &&
-              block.map((data, index) => {
+            {REQUESTBLOCKS && null}
+            {!REQUESTBLOCKS &&
+              Blocks &&
+              !null &&
+              Blocks.map((data, index) => {
                 return (
                   <BlockItem
                     key={index}
@@ -142,18 +88,18 @@ const RenderList = () => {
           </StyledSrollBarBox>
         </StyledListBox>
         <ViewAllDiv>
-          <ViewAllButton>
-            <LinkTag to={'blocks?pn=25&p=1'}>View all blocks</LinkTag>
-          </ViewAllButton>
+          <ViewAllButton to={`/blocks`}>View all blocks</ViewAllButton>
         </ViewAllDiv>
       </StyledListInner>
       <StyledListInner>
         <StyledTitleBox>Latest Transactions</StyledTitleBox>
         <StyledListBox>
           <StyledSrollBarBox>
-            {loading && null}
-            {!loading &&
-              txs.map((data, index) => {
+            {REQUESTTXS && null}
+            {!REQUESTTXS &&
+              Txs &&
+              !null &&
+              Txs.map((data, index) => {
                 return (
                   <TxsItems
                     key={index}
@@ -169,9 +115,7 @@ const RenderList = () => {
           </StyledSrollBarBox>
         </StyledListBox>
         <ViewAllDiv>
-          <ViewAllButton>
-            <LinkTag to={'txs?pn=25&p=1'}>View all transactions</LinkTag>
-          </ViewAllButton>
+          <ViewAllButton to={`/txs`}>View all transactions</ViewAllButton>
         </ViewAllDiv>
       </StyledListInner>
     </StyledDiv>

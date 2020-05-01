@@ -1,9 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { darken, lighten } from 'polished';
-import { MAINTIME } from '../../../../Action/ActionTypes';
-import { GetTime } from '../../../../Action/Time';
-import { translateTimestamp2 } from '../../../../helper/translate';
+import TimeStamBox from './TimeItems';
 
 const TxsItem = styled.div``;
 
@@ -45,11 +42,6 @@ const HashBox = styled.div`
   text-overflow: ellipsis;
   color: #3498db;
   cursor: pointer;
-`;
-
-const TimeStampBox = styled.div`
-  width: 200px;
-  color: #77838f;
 `;
 
 const FromToDiv = styled.div`
@@ -115,28 +107,7 @@ const A = styled.a`
 `;
 
 const TxsItems = ({ index, hash, timestamp, from, to, txFee }) => {
-  const [loading, setLoading] = useState();
-  // const [time, setTime] = useState({
-  //   Seconds: 0,
-  //   Minutes: null,
-  // });
-  const [time, setTime] = useState('');
-
-  if (txFee != null) {
-    txFee = txFee.toFixed(5);
-  }
-
-  function TimeCount() {
-    setLoading(true);
-
-    setInterval(() => {
-      setTime(translateTimestamp2(timestamp));
-    }, 999);
-    setLoading(false);
-  }
-  useEffect(() => {
-    TimeCount();
-  }, [time]);
+  txFee = txFee.toFixed(5);
 
   // function TimeCount() {
   //   setLoading(true);
@@ -159,16 +130,8 @@ const TxsItems = ({ index, hash, timestamp, from, to, txFee }) => {
             <TxsIconBox>TX</TxsIconBox>
           </TxsIconDiv>
           <HashTimestampBox>
-            <HashBox>
-              <A href={`/txs/${hash}`}>{hash}</A>
-            </HashBox>
-            <TimeStampBox>
-              {loading && null}
-              {!loading && time}
-              {/* {!loading && time.Minutes
-                ? time.Minutes + 'min ' + time.Seconds + 'secs ago'
-                : time.Seconds + 'secs ago'} */}
-            </TimeStampBox>
+            <HashBox>{hash}</HashBox>
+            <TimeStamBox timestamp={timestamp} />
           </HashTimestampBox>
           <FromToDiv>
             <TxDiv>
