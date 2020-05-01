@@ -2,16 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './Components/App';
 import * as serviceWorker from './serviceWorker';
-import { BrowserRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import store from './Store/store';
+import { BrowserRouter } from 'react-router-dom'; // * BrowserRouter 불러오기
 
 ReactDOM.render(
-  <Provider store={store}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </Provider>,
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>,
   document.getElementById('root'),
 );
 

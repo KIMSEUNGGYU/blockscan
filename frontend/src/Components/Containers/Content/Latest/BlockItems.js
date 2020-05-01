@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import TimeStamBox from './TimeItems';
+import { MAINTIME } from '../../../../Action/ActionTypes';
+import { GetTime } from '../../../../Action/Time';
+import { translateTimestamp2 } from '../../../../helper/translate';
 
 const BlockItem = styled.div``;
 
@@ -39,6 +41,11 @@ const NumberElapseDiv = styled.div`
 const NumberBox = styled.div`
   color: #3498db;
   cursor: pointer;
+`;
+
+const ElapseBox = styled.div`
+  color: #77838f;
+  width: 200px;
 `;
 
 const MinerTxEthDiv = styled.div`
@@ -88,8 +95,35 @@ const EthBox = styled.div`
   align-items: center;
 `;
 
+const A = styled.a`
+  color: #3498db;
+  text-decoration: none;
+  &:hover {
+    cursor: pointer;
+    color: #3498db;
+    font-weight: 500;
+  }
+`;
+
 const BlockItems = ({ index, number, timestamp, miner, txCount, blockReward }) => {
-  blockReward = blockReward.toFixed(5);
+  const [loading, setLoading] = useState();
+  const [time, setTime] = useState('');
+
+  if (blockReward != null) {
+    blockReward = blockReward.toFixed(5);
+  }
+
+  function TimeCount() {
+    setLoading(true);
+
+    setInterval(() => {
+      setTime(translateTimestamp2(timestamp));
+    }, 999);
+    setLoading(false);
+  }
+  useEffect(() => {
+    TimeCount();
+  }, [time]);
 
   return (
     <BlockItem>
@@ -99,8 +133,13 @@ const BlockItems = ({ index, number, timestamp, miner, txCount, blockReward }) =
             <BlockIconBox>BK</BlockIconBox>
           </BlockIconDiv>
           <NumberElapseDiv>
-            <NumberBox>{number}</NumberBox>
-            <TimeStamBox timestamp={timestamp} />
+            <NumberBox>
+              <A href={`/block/${number}`}>{number}</A>
+            </NumberBox>
+            <ElapseBox>
+              {loading && null}
+              {!loading && time}
+            </ElapseBox>
           </NumberElapseDiv>
           <MinerTxEthDiv>
             <MinerTxDiv>
