@@ -1,71 +1,62 @@
-/* eslint-disable jsx-a11y/accessible-emoji */
-
-import React, { useState, useEffect } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { darken, lighten } from 'polished';
-import axios from 'axios';
-import hexToString from '../../../../helper/translate';
+import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
+import { GetTime } from '../../../../Action/Time';
+import { GetInfo } from '../../../../Action/api/Get';
+import { hexToString, DetailTimeToText, TranslateDetailText } from '../../../../helper/translate';
+import { DETAILBLOCK, DETAILTX, VIEWTIME } from '../../../../Action/ActionTypes';
 
 const DetailSection = styled.div`
   width: 100%;
   height: 100%;
 `;
 
-// SECTION TITLE
 const SectionTitle = styled.div`
   height: 80px;
   line-height: 80px;
-  background-color: #f8f9fa;
   display: flex;
-  border-bottom: 2px solid ${darken(0.1, '#f8f9fa')};
 `;
 
-const Title = styled.h1`
+const PageTitle = styled.h1`
   font-size: 30px;
 `;
 
 const SubTitle = styled.p`
   margin-left: 15px;
   font-size: 23px;
-  color: #77838f;
+  color: ${props => props.theme.draksubtitle};
 `;
 
-// SECTION OPTION
 const SectionOptions = styled.div`
   height: 80px;
   line-height: 80px;
   font-size: 19px;
-  color: #77838f;
+  color: ${props => props.theme.draksubtitle};
 `;
 
-const B = styled.b`
+const ItemBold = styled.b`
   font-weight: bold;
 `;
 
-const A = styled.a`
-  color: #3498db;
+const StyledLink = styled(Link)`
+  color: ${props => props.theme.button};
+  font-size: 14px;
   font-weight: 900;
   text-decoration: none;
-  &:hover {
-    cursor: pointer;
-    color: ${darken(0.1, '#3498db')};
-  }
 `;
 
-// SECTION CONTENTS
 const SectionContents = styled.div`
-  /* height: 800px; */
-  background-color: #fff;
-  /* margin-bottom: 100px; */
-  border: 1px solid ${darken(0.1, '#f8f9fa')};
+  background-color: ${props => props.theme.background};
+  border: 1px solid ${props => darken(0.1, props.theme.subtitle)};
 `;
 
 const ContentTitle = styled.div`
-  border-bottom: 2px solid ${darken(0.1, '#f8f9fa')};
+  border-bottom: 2px solid ${props => darken(0.1, props.theme.subtitle)};
   font-size: 20px;
   font-weight: 700;
-  /* color: #4a4f55;  */ /*default color*/
-  color: #3498db;
+  color: ${props => props.theme.button};
   display: flex;
 `;
 
@@ -73,8 +64,8 @@ const ContentLi = styled.li`
   margin-left: 0;
   padding: 20px;
   list-style: none;
-  border-bottom-color: #3498db;
-  border-bottom: 3px solid #3498db;
+  border-bottom-color: ${props => props.theme.button};
+  border-bottom: 3px solid ${props => props.theme.button};
   &:hover {
     cursor: pointer;
   }
@@ -82,7 +73,6 @@ const ContentLi = styled.li`
 
 const ContentItemSection = styled.div`
   margin-left: 1%;
-  /* width: 100%; */
 `;
 
 const ContentItems = styled.div`
@@ -91,15 +81,39 @@ const ContentItems = styled.div`
   line-height: 40px;
   padding: 10px;
   display: flex;
-  border-bottom: 2px solid #dae0e5;
+  border-bottom: 2px solid ${props => props.theme.line};
   font-size: 18px;
 `;
 const ItemTitle = styled.div`
-  /* margin-left: 20px; */
   width: 20%;
 `;
 const ItemValue = styled.div`
   display: flex;
+`;
+
+const StatusDiv = styled.div`
+  background-color: ${props => (props.Success ? props.theme.success : props.theme.fail)};
+  color: ${props => (props.Success ? props.theme.successtext : props.theme.failtext)};
+  border-radius: 0.25px;
+  padding: 0px 11px;
+  .IconColor {
+    color: ${props => (props.Success ? props.theme.successtext : props.theme.failtext)};
+  }
+`;
+
+const StatusInner = styled.div`
+  font-size: 14px;
+`;
+
+const ValueDiv = styled.div`
+  display: flex;
+  background-color: ${props => props.theme.etherbackgroundcolor};
+  border-radius: 5px;
+  padding: 0 8px;
+`;
+
+const ValueInner = styled.div`
+  font-size: 14px;
 `;
 
 const TransactionDiv = styled.div`
@@ -107,16 +121,23 @@ const TransactionDiv = styled.div`
   height: 90%;
   padding: 0 10px;
   font-size: 17px;
-  background-color: ${lighten(0.42, '#3498db')};
+  background-color: ${props => lighten(0.42, props.theme.button)};
+  &:hover {
+    background-color: ${props => darken(0.1, props.theme.button)};
+    .button {
+      color: ${props => props.theme.background};
+    }
+  }
 `;
 
 const ValueA = styled.a`
   color: #3498db;
   text-decoration: none;
-  &:hover {
-    cursor: pointer;
-    color: ${darken(0.1, '#3498db')};
-  }
+`;
+
+const InputArea = styled.textarea`
+  overflow: auto;
+  min-height: 40px;
 `;
 
 const CollapsedDiv = styled.div`
@@ -127,193 +148,289 @@ const CollapsedDiv = styled.div`
 `;
 
 const CollapsedButton = styled.button`
-  /* margin-left: 20px; */
-  color: #3498db;
+  color: ${props => props.theme.button};
   outline: 0;
   border: 0;
   &:hover {
     cursor: pointer;
-    color: ${darken(0.1, '#3498db')};
+    color: ${props => darken(0.1, props.theme.button)};
   }
 `;
 
-// SECTION BOTTOM
 const SectionBottom = styled.div`
   height: 80px;
 `;
 
 const RenderDetail = ({ match }) => {
-  const { blockNumber } = match.params;
+  const path = match.path.split('/')[1];
+  const Title = TranslateDetailText(path);
   const [hidden, setHidden] = useState(true);
-  const [loading, setLoading] = useState(false);
-
-  const [block, setBlock] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState();
 
   const clickEvent = () => {
     setHidden(!hidden);
   };
 
-  const fetchBlock = async () => {
-    try {
-      setLoading(true);
-      const response = await axios.get(`http://49.50.162.172/api/v1/block/${blockNumber}`);
-      const { block } = response.data.result;
-      setLoading(false);
-      setBlock(block);
-    } catch (e) {
-      // setError(e);
+  const GetDatas = useCallback(async () => {
+    let Data;
+    if (path === 'block') {
+      const { blockNumber } = match.params;
+      Data = await GetInfo(DETAILBLOCK, blockNumber);
+    } else if (path === 'tx') {
+      const { txHash } = match.params;
+      Data = await GetInfo(DETAILTX, txHash);
     }
-  };
+    setData(Data);
+    setLoading(false);
+  }, [path, match.params]);
 
   useEffect(() => {
-    fetchBlock();
-  }, []);
-
-  if (loading) return <div> 로딩 중... </div>;
-  if (!block) return <div> 데이터를 찾을 수 없습니다.</div>;
-
-  const {
-    number,
-    timestamp,
-    transactions,
-    miner,
-    blockReward,
-    unclesReward,
-    difficulty,
-    totalDifficulty,
-    size,
-    gasUsed,
-    gasLimit,
-    extraData,
-    hash,
-    parentHash,
-    sha3Uncles,
-    nonce,
-    gasUsedPercent,
-    blockRewardUncles,
-  } = block;
+    GetDatas();
+  }, [GetDatas]);
 
   return (
-    <DetailSection>
-      <SectionTitle>
-        <Title> Block </Title>
-        <SubTitle> #{number}</SubTitle>
-      </SectionTitle>
-      <SectionOptions>
-        💡 <B>Feature Tip</B>: Browse all your{' '}
-        <A href='https://etherscan.io/dapp'>favourite Dapps here</A> on Blockscan! 😍
-      </SectionOptions>
-      <SectionContents>
-        <ContentTitle>
-          <ContentLi>Overview</ContentLi>
-        </ContentTitle>
-        <ContentItemSection>
-          <ContentItems>
-            <ItemTitle> Block Height:</ItemTitle>
-            <ItemValue>
-              <B>{number}</B> &nbsp;&nbsp;&nbsp;
-              <TransactionDiv>
-                <A href={`/block/${number - 1}`}>&lt;</A>
-              </TransactionDiv>
-              &nbsp;
-              <TransactionDiv>
-                <A href={`/block/${number + 1}`}>&gt;</A>
-              </TransactionDiv>
-            </ItemValue>
-          </ContentItems>
-          <ContentItems>
-            <ItemTitle> Timestamp: </ItemTitle>
-            <ItemValue> {timestamp}</ItemValue>
-          </ContentItems>
-          <ContentItems>
-            <ItemTitle> Transactions: </ItemTitle>
-            <ItemValue>
-              <TransactionDiv>
-                <A href='#'>{transactions} transactions</A>
-              </TransactionDiv>
-              &nbsp; in this block
-            </ItemValue>
-          </ContentItems>
-          <ContentItems>
-            <ItemTitle> Mined by: </ItemTitle>
-            <ItemValue>
-              <ValueA href={`https://etherscan.io/address/${miner}`}>{miner}</ValueA>
-            </ItemValue>
-          </ContentItems>
-          <ContentItems>
-            <ItemTitle> Block Reward: </ItemTitle>
-            <ItemValue>
-              {blockReward} Ether (2 + {blockReward - 2 - blockRewardUncles}
-              {blockRewardUncles ? `+ ${blockRewardUncles}` : null})
-            </ItemValue>
-          </ContentItems>
-          <ContentItems>
-            <ItemTitle> Uncles Reward:</ItemTitle>
-            <ItemValue> {unclesReward === '0x0' ? 0 : unclesReward} </ItemValue>
-          </ContentItems>
-          <ContentItems>
-            <ItemTitle> Difficulty:</ItemTitle>
-            <ItemValue> {difficulty} </ItemValue>
-          </ContentItems>
-          <ContentItems>
-            <ItemTitle> Total Difficulty: </ItemTitle>
-            <ItemValue> {totalDifficulty}</ItemValue>
-          </ContentItems>
-          <ContentItems>
-            <ItemTitle> Size: </ItemTitle>
-            <ItemValue> {size} bytes </ItemValue>
-          </ContentItems>
-          <ContentItems>
-            <ItemTitle> Gas Used </ItemTitle>
-            <ItemValue>
-              {' '}
-              {gasUsed} ({gasUsedPercent}){' '}
-            </ItemValue>
-          </ContentItems>
-          <ContentItems>
-            <ItemTitle> Gas Limit: </ItemTitle>
-            <ItemValue> {gasLimit} </ItemValue>
-          </ContentItems>
-          <ContentItems>
-            <ItemTitle> Extra Data: </ItemTitle>
-            <ItemValue>
-              {extraData ? hexToString(extraData) : null} (Hex:{extraData})
-            </ItemValue>
-          </ContentItems>
-          {hidden ? (
-            <CollapsedDiv>
-              <CollapsedButton onClick={clickEvent}>Click to See more ️ &#11015; </CollapsedButton>
-            </CollapsedDiv>
-          ) : (
-            <>
-              <ContentItems>
-                <ItemTitle> Hash: </ItemTitle>
-                <ItemValue>{hash}</ItemValue>
-              </ContentItems>
-              <ContentItems>
-                <ItemTitle> Parent Hash: </ItemTitle>
-                <ItemValue>
-                  <ValueA href='#'>{parentHash}</ValueA>
-                </ItemValue>
-              </ContentItems>
-              <ContentItems>
-                <ItemTitle> Sha3Uncles: </ItemTitle>
-                <ItemValue>{sha3Uncles}</ItemValue>
-              </ContentItems>
-              <ContentItems>
-                <ItemTitle> Nonce: </ItemTitle>
-                <ItemValue>{nonce}</ItemValue>
-              </ContentItems>
-              <CollapsedDiv>
-                <CollapsedButton onClick={clickEvent}>Click to See less &#11014; </CollapsedButton>
-              </CollapsedDiv>
-            </>
-          )}
-        </ContentItemSection>
-      </SectionContents>
-
-      <SectionBottom />
-    </DetailSection>
+    <>
+      {loading && '로딩 중'}
+      {!loading && data && Title && (
+        <>
+          <DetailSection>
+            <SectionTitle>
+              <PageTitle> {path === 'block' ? 'Block' : 'Transaction Details'}</PageTitle>
+              {path === 'block' ? <SubTitle> #{data.number}</SubTitle> : null}
+            </SectionTitle>
+            <SectionOptions>
+              <span role='img' aria-label='light'>
+                💡
+              </span>
+              <ItemBold>Feature Tip</ItemBold>: Browse all your{' '}
+              <ValueA href='https://etherscan.io/dapp'>favourite Dapps here</ValueA> on Blockscan!
+              😍
+            </SectionOptions>
+            <SectionContents>
+              <ContentTitle>
+                <ContentLi>Overview</ContentLi>
+              </ContentTitle>
+              <ContentItemSection>
+                <ContentItems>
+                  <ItemTitle>{Title[0]}</ItemTitle>
+                  {path === 'block' ? (
+                    <ItemValue>
+                      <ItemBold>{data.number}</ItemBold> &nbsp;&nbsp;&nbsp;
+                      <TransactionDiv>
+                        <StyledLink to={`/block/${data.number - 1}`} className='button'>
+                          &lt;
+                        </StyledLink>
+                      </TransactionDiv>
+                      &nbsp;
+                      <TransactionDiv>
+                        <StyledLink to={`/block/${data.number + 1}`} className='button'>
+                          &gt;
+                        </StyledLink>
+                      </TransactionDiv>
+                    </ItemValue>
+                  ) : (
+                    <ItemValue>
+                      <ItemBold>{data.hash}</ItemBold>
+                    </ItemValue>
+                  )}
+                </ContentItems>
+                <ContentItems>
+                  <ItemTitle> {Title[1]} </ItemTitle>
+                  <ItemValue>
+                    {path === 'block' ? (
+                      DetailTimeToText(GetTime(data.timestamp, VIEWTIME))
+                    ) : data.status === 1 ? (
+                      <StatusDiv Success>
+                        <StatusInner>
+                          <FaCheckCircle className='IconColor' /> Success
+                        </StatusInner>
+                      </StatusDiv>
+                    ) : (
+                      <StatusDiv>
+                        <StatusInner>
+                          <FaTimesCircle className='IconColor' /> Fail
+                        </StatusInner>
+                      </StatusDiv>
+                    )}
+                  </ItemValue>
+                </ContentItems>
+                <ContentItems>
+                  <ItemTitle>{Title[2]}</ItemTitle>
+                  {path === 'block' ? (
+                    <ItemValue>
+                      <TransactionDiv>
+                        <ValueA href='#' className='button'>
+                          {data.transactions} transactions
+                        </ValueA>
+                      </TransactionDiv>
+                      &nbsp; in this block
+                    </ItemValue>
+                  ) : (
+                    <ItemValue>
+                      <StyledLink to={`/block/${data.blocksnumber}`}>
+                        {data.blocksnumber}
+                      </StyledLink>
+                    </ItemValue>
+                  )}
+                </ContentItems>
+                <ContentItems>
+                  <ItemTitle> {Title[3]}</ItemTitle>
+                  {path === 'block' ? (
+                    <ItemValue>
+                      <ValueA href={`https://etherscan.io/address/${data.miner}`}>
+                        {data.miner}
+                      </ValueA>
+                    </ItemValue>
+                  ) : (
+                    <ItemValue>{DetailTimeToText(GetTime(data.timestamp, VIEWTIME))}</ItemValue>
+                  )}
+                </ContentItems>
+                <ContentItems>
+                  <ItemTitle>{Title[4]}</ItemTitle>
+                  {path === 'block' ? (
+                    <ItemValue>
+                      {data.blockReward} Ether (2 +{data.blockReward - 2 - data.blockRewardUncles}
+                      {data.blockRewardUncles ? `+ ${data.blockRewardUncles}` : null})
+                    </ItemValue>
+                  ) : (
+                    <ItemValue>
+                      <ValueA href={`https://etherscan.io/address/${data.from}`}>
+                        {data.from}
+                      </ValueA>
+                    </ItemValue>
+                  )}
+                </ContentItems>
+                <ContentItems>
+                  <ItemTitle>{Title[5]}</ItemTitle>
+                  {path === 'block' ? (
+                    <ItemValue> {data.unclesReward === '0x0' ? 0 : data.unclesReward} </ItemValue>
+                  ) : (
+                    <ItemValue>
+                      <ValueA href={`https://etherscan.io/address/${data.to}`}>{data.to}</ValueA>
+                    </ItemValue>
+                  )}
+                </ContentItems>
+                <ContentItems>
+                  <ItemTitle>{Title[6]}</ItemTitle>
+                  {path === 'block' ? (
+                    <ItemValue> {data.difficulty}</ItemValue>
+                  ) : (
+                    <ItemValue>
+                      <ValueDiv>
+                        <ValueInner>{data.value} Ether</ValueInner>
+                      </ValueDiv>
+                    </ItemValue>
+                  )}
+                </ContentItems>
+                <ContentItems>
+                  <ItemTitle>{Title[7]}</ItemTitle>
+                  {path === 'block' ? (
+                    <ItemValue> {data.totalDifficulty}</ItemValue>
+                  ) : (
+                    <ItemValue>{data.txfee} Ether</ItemValue>
+                  )}
+                </ContentItems>
+                {path === 'block' ? (
+                  <ContentItems>
+                    <ItemTitle>{Title[8]}</ItemTitle>
+                    <ItemValue> {data.size} bytes </ItemValue>
+                  </ContentItems>
+                ) : hidden ? (
+                  <CollapsedDiv>
+                    <CollapsedButton onClick={clickEvent}>
+                      Click to See more ️ &#11015;{' '}
+                    </CollapsedButton>
+                  </CollapsedDiv>
+                ) : (
+                  <>
+                    <ContentItems>
+                      <ItemTitle>{Title[8]}</ItemTitle>
+                      <ItemValue>{data.gaslimit}</ItemValue>
+                    </ContentItems>
+                    <ContentItems>
+                      <ItemTitle>{Title[9]}</ItemTitle>
+                      <ItemValue>{data.gasused}</ItemValue>
+                    </ContentItems>
+                    <ContentItems>
+                      <ItemTitle>{Title[10]}</ItemTitle>
+                      <ItemValue>{data.gasprice}</ItemValue>
+                    </ContentItems>
+                    <ContentItems>
+                      <ItemTitle>{Title[11]}</ItemTitle>
+                      <ItemValue>{data.nonce}</ItemValue>
+                    </ContentItems>
+                    <ContentItems style={{ height: 'fit-content' }}>
+                      <ItemTitle>{Title[12]}</ItemTitle>
+                      <InputArea row='10' cols='100' defaultValue={data.inputdata}></InputArea>
+                    </ContentItems>
+                    <CollapsedDiv>
+                      <CollapsedButton onClick={clickEvent}>
+                        Click to See less ️ &#11014;{' '}
+                      </CollapsedButton>
+                    </CollapsedDiv>
+                  </>
+                )}
+                {path === 'block' ? (
+                  <>
+                    <ContentItems>
+                      <ItemTitle>{Title[9]}</ItemTitle>
+                      <ItemValue>
+                        {data.gasUsed} ({data.gasUsedPercent})
+                      </ItemValue>
+                    </ContentItems>
+                    <ContentItems>
+                      <ItemTitle>{Title[10]}</ItemTitle>
+                      <ItemValue>{data.gasLimit}</ItemValue>
+                    </ContentItems>
+                  </>
+                ) : null}
+                {path === 'block' && hidden ? (
+                  <CollapsedDiv>
+                    <CollapsedButton onClick={clickEvent}>
+                      Click to See more ️ &#11015;{' '}
+                    </CollapsedButton>
+                  </CollapsedDiv>
+                ) : path === 'block' ? (
+                  <>
+                    <ContentItems>
+                      <ItemTitle> {Title[11]} </ItemTitle>
+                      <ItemValue>
+                        {data.extraData ? hexToString(data.extraData) : null}(Hex:{data.extraData})
+                      </ItemValue>
+                    </ContentItems>
+                    <ContentItems>
+                      <ItemTitle> {Title[12]} </ItemTitle>
+                      <ItemValue>{data.hash}</ItemValue>
+                    </ContentItems>
+                    <ContentItems>
+                      <ItemTitle> {Title[13]} </ItemTitle>
+                      <ItemValue>
+                        <ValueA href={'#'}>{data.parentHash}</ValueA>
+                      </ItemValue>
+                    </ContentItems>
+                    <ContentItems>
+                      <ItemTitle> {Title[14]} </ItemTitle>
+                      <ItemValue>{data.sha3Uncles}</ItemValue>
+                    </ContentItems>
+                    <ContentItems>
+                      <ItemTitle> {Title[15]} </ItemTitle>
+                      <ItemValue>{data.nonce}</ItemValue>
+                    </ContentItems>
+                    <CollapsedDiv>
+                      <CollapsedButton onClick={clickEvent}>
+                        Click to See less ️ &#11014;{' '}
+                      </CollapsedButton>
+                    </CollapsedDiv>
+                  </>
+                ) : null}
+              </ContentItemSection>
+            </SectionContents>
+            <SectionBottom />
+          </DetailSection>
+        </>
+      )}
+    </>
   );
 };
 

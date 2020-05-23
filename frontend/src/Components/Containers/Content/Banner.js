@@ -1,24 +1,29 @@
 import React from 'react';
 import styled from 'styled-components';
+import Banner from '../../../Assets/banner.png';
 
 const BannerDiv = styled.div`
   height: 76.5px;
   display: flex;
   justify-content: center;
   margin: 0 0 20px;
+  /* border: 1px solid black; */
 `;
 
 const BannerBox = styled.div`
-  width: 967px;
-  border: 1px solid black;
+  width: 75%;
   border-radius: 0.25rem;
-  background-color: white;
+  background-image: url(${props => props.url});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  /* border: 1px solid black; */
 `;
 
 export default () => {
   return (
     <BannerDiv>
-      <BannerBox />
+      <BannerBox url={Banner} />
     </BannerDiv>
   );
 };

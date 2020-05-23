@@ -1,15 +1,15 @@
 const FilterData = [
   {
-    label: 'All Filters',
     value: 'All',
+    label: 'All Filters',
   },
   {
-    label: 'Txn Hash',
     value: 'Transaction',
+    label: 'Txn Hash',
   },
   {
-    label: 'Number',
     value: 'Block',
+    label: 'Number',
   },
 ];
 

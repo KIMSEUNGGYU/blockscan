@@ -1,11 +1,14 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import TimeStamBox from './TimeItems';
 
-const TxsItem = styled.div``;
+const TxsItem = styled.div`
+  width: 425px;
+`;
 
 const TxsInner = styled.div`
-  border-bottom: 0.5px solid #e7eaf3;
+  border-bottom: 0.5px solid ${props => props.theme.etherinfo};
   margin-bottom: 12px;
 `;
 
@@ -15,37 +18,41 @@ const TxsBox = styled.div`
 `;
 
 const TxsIconDiv = styled.div`
+  width: 10%;
+  height: 100%;
   margin-right: 8px;
   display: flex;
 `;
 
 const TxsIconBox = styled.div`
+  width: 100%;
+  height: 100%;
   cursor: default;
-  width: 38.609px;
-  height: 38.609px;
-  background: rgba(119, 131, 143, 0.1);
-  border-radius: 0.25rem;
+  background: ${props => props.theme.ethershadow};
   display: flex;
-  align-items: center;
   justify-content: center;
   user-select: none;
+  padding: 10px;
+  border-radius: 5px;
 `;
 
 const HashTimestampBox = styled.div`
-  width: 119.375px;
+  width: 20%;
   display: block;
 `;
 
-const HashBox = styled.div`
+const HashBox = styled(Link)`
+  display: block;
   max-width: 132px;
+  text-decoration: none;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: #3498db;
+  color: ${props => props.theme.button};
   cursor: pointer;
 `;
 
 const FromToDiv = styled.div`
-  width: 391px;
+  width: 70%;
   padding-left: 7.5px;
   display: flex;
   justify-content: space-between;
@@ -65,7 +72,7 @@ const From = styled.a`
   overflow: hidden;
   text-overflow: ellipsis;
   margin-left: 3px;
-  color: #3498db;
+  color: ${props => props.theme.button};
   cursor: pointer;
 `;
 
@@ -77,7 +84,7 @@ const ToBox = styled.div`
 const To = styled.a`
   overflow: hidden;
   text-overflow: ellipsis;
-  color: #3498db;
+  color: ${props => props.theme.button};
   cursor: pointer;
   margin-left: 4px;
 `;
@@ -86,7 +93,7 @@ const TxFeeBox = styled.div`
   max-width: 132px;
   overflow: hidden;
   text-overflow: ellipsis;
-  background-color: #f1f2f4;
+  background-color: ${props => props.theme.etherbackgroundcolor};
   display: flex;
   border-radius: 6.1875rem;
   font-size: 0.60938rem;
@@ -107,7 +114,7 @@ const TxsItems = ({ index, hash, timestamp, from, to, txFee }) => {
             <TxsIconBox>TX</TxsIconBox>
           </TxsIconDiv>
           <HashTimestampBox>
-            <HashBox>{hash}</HashBox>
+            <HashBox to={`/tx/${hash}`}>{hash}</HashBox>
             <TimeStamBox timestamp={timestamp} />
           </HashTimestampBox>
           <FromToDiv>

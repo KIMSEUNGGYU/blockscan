@@ -10,12 +10,12 @@ const EtherInfo = styled.div`
   height: 30%;
   padding: 12px 0;
   margin: 0px 0px 20px;
-  border: 1px solid #e7eaf3;
+  border: 1px solid ${props => props.theme.etherinfo};
   font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
   font-size: 0.8125rem;
   line-height: 1.5;
-  background-color: white;
-  box-shadow: 0 0.5rem 1.2rem rgba(189, 197, 209, 0.2);
+  background-color: ${props => props.theme.background};
+  box-shadow: 0 0.5rem 1.2rem ${props => props.theme.ethershadow};
 `;
 
 const InfoInner = styled.div`
@@ -25,9 +25,16 @@ const InfoInner = styled.div`
 
 const SubInner = styled.div`
   width: 32%;
-  border-right: 1px solid #e7eaf3;
+  border-right: 1px solid ${props => props.theme.etherinfo};
   margin-left: 12px;
   padding-right: 15px;
+`;
+
+const CharInner = styled.div`
+  width: 36%;
+  background-image: url(${Chart});
+  background-size: contain;
+  background-repeat: no-repeat;
 `;
 
 const ThirdInner = styled.div`
@@ -47,11 +54,11 @@ const LatestTransactionBox = styled.div`
 
 const TitleBox = styled.div`
   display: block;
-  color: #77838f;
+  color: ${props => props.theme.draksubtitle};
 `;
 
 const StlyedText = styled.div`
-  color: black;
+  color: ${props => props.theme.black};
 `;
 
 const ImageBox = styled.img`
@@ -66,7 +73,7 @@ const Styledhr = styled.hr`
   margin-bottom: 1.6rem;
   opacity: 0.75px;
   border: 0;
-  border: 0.5px solid #e7eaf3;
+  border: 0.5px solid ${props => props.theme.etherinfo};
 `;
 
 const RenderEtherInfo = () => {
@@ -127,9 +134,7 @@ const RenderEtherInfo = () => {
             </BlockTxDiffiHashinner>
           </ThirdInner>
         </SubInner>
-        <SubInner>
-          <img src={Chart} alt='ETHEREUM TRANSACTION HISTORY IN 14 DAYS'></img>
-        </SubInner>
+        <CharInner url={Chart}></CharInner>
       </InfoInner>
     </EtherInfo>
   );

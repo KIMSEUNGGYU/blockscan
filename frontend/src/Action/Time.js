@@ -31,13 +31,13 @@ export const GetTime = (Timestamp, action) => {
       if (Days > 0) {
         Time.Days = Days;
       }
-      if (Hours > 0) {
+      if (Hours >= 0) {
         Time.Hours = Hours;
       }
-      if (Minutes > 0) {
+      if (Minutes >= 0) {
         Time.Minutes = Minutes;
       }
-      if (Seconds > 0) {
+      if (Seconds >= 0) {
         Time.Seconds = Seconds;
       }
       break;

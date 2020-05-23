@@ -1,11 +1,14 @@
-import React from "react";
-import styled from "styled-components";
-import TimeStamBox from "./TimeItems";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import TimeStamBox from './TimeItems';
 
-const BlockItem = styled.div``;
+const BlockItem = styled.div`
+  width: 425px;
+`;
 
 const BlockInner = styled.div`
-  border-bottom: 0.5px solid #e7eaf3;
+  border-bottom: 0.5px solid ${props => props.theme.etherinfo};
   margin-bottom: 12px;
 `;
 
@@ -15,34 +18,37 @@ const BlockBox = styled.div`
 `;
 
 const BlockIconDiv = styled.div`
+  width: 10%;
+  height: 100%;
   margin-right: 8px;
   display: flex;
 `;
 
 const BlockIconBox = styled.div`
+  width: 100%;
+  height: 100%;
   cursor: default;
-  width: 38.609px;
-  height: 38.609px;
-  background: rgba(119, 131, 143, 0.1);
-  border-radius: 0.25rem;
+  background: ${props => props.theme.ethershadow};
   display: flex;
-  align-items: center;
   justify-content: center;
   user-select: none;
+  padding: 10px;
+  border-radius: 5px;
 `;
 
 const NumberElapseDiv = styled.div`
-  width: 119.375px;
+  width: 20%;
   display: block;
 `;
 
-const NumberBox = styled.div`
-  color: #3498db;
+const NumberBox = styled(Link)`
+  color: ${props => props.theme.button};
+  text-decoration: none;
   cursor: pointer;
 `;
 
 const MinerTxEthDiv = styled.div`
-  width: 391px;
+  width: 70%;
   padding-left: 7.5px;
   display: flex;
   justify-content: space-between;
@@ -63,14 +69,14 @@ const MinerName = styled.a`
   overflow: hidden;
   text-overflow: ellipsis;
   margin-left: 3px;
-  color: #3498db;
+  color: ${props => props.theme.button};
   cursor: pointer;
 `;
 
 const TxBox = styled.div``;
 
 const TxCount = styled.a`
-  color: #3498db;
+  color: ${props => props.theme.button};
   cursor: pointer;
 `;
 
@@ -78,7 +84,7 @@ const EthBox = styled.div`
   max-width: 132px;
   overflow: hidden;
   text-overflow: ellipsis;
-  background-color: #f1f2f4;
+  background-color: ${props => props.theme.etherbackgroundcolor};
   display: flex;
   border-radius: 6.1875rem;
   font-size: 0.60938rem;
@@ -88,29 +94,18 @@ const EthBox = styled.div`
   align-items: center;
 `;
 
-const BlockItems = ({
-  index,
-  number,
-  timestamp,
-  miner,
-  txCount,
-  blockReward,
-}) => {
+const BlockItems = ({ index, number, timestamp, miner, txCount, blockReward }) => {
   blockReward = blockReward.toFixed(5);
 
   return (
     <BlockItem>
-      <BlockInner
-        style={
-          index === 9 ? { marginBottom: "0px", borderBottom: "0px" } : null
-        }
-      >
+      <BlockInner style={index === 9 ? { marginBottom: '0px', borderBottom: '0px' } : null}>
         <BlockBox>
           <BlockIconDiv>
             <BlockIconBox>BK</BlockIconBox>
           </BlockIconDiv>
           <NumberElapseDiv>
-            <NumberBox>{number}</NumberBox>
+            <NumberBox to={`/block/${number}`}>{number}</NumberBox>
             <TimeStamBox timestamp={timestamp} />
           </NumberElapseDiv>
           <MinerTxEthDiv>

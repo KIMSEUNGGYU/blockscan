@@ -2,14 +2,22 @@ import axios from 'axios';
 import qs from 'qs';
 import * as types from '../ActionTypes';
 
-const GetBlocks = data => {
-  const { blocks } = data.result;
-  return blocks;
+const GetBlocks = (data, total) => {
+  if (total === undefined) {
+    const { blocks } = data.result;
+    return blocks;
+  }
+  const { blocks, totalBlock } = data.result;
+  return { blocks, totalBlock };
 };
 
-const GetTxs = data => {
-  const { txs } = data.result;
-  return txs;
+const GetTxs = (data, total) => {
+  if (total === undefined) {
+    const { txs } = data.result;
+    return txs;
+  }
+  const { txs, totalTx } = data.result;
+  return { txs, totalTx };
 };
 
 export const GetApi = async action => {
@@ -33,16 +41,40 @@ export const GetApi = async action => {
 
 export const GetAll = async (action, p, pn) => {
   let Data;
-  const result = await axios.get('http://49.50.162.172/api/v1/blocks?' + qs.stringify({ p, pn }));
-  const data = result.data;
   switch (action) {
     case types.BLOCKSALL: {
-      Data = GetBlocks(data);
+      const result = await axios.get(
+        'http://49.50.162.172/api/v1/blocks?' + qs.stringify({ p, pn }),
+      );
+      const data = result.data;
+      Data = GetBlocks(data, true);
       break;
     }
     case types.TXSALL: {
-      console.log('Alltxs');
-      Data = GetTxs(data);
+      const result = await axios.get('http://49.50.162.172/api/v1/txs?' + qs.stringify({ p, pn }));
+      const data = result.data;
+      Data = GetTxs(data, true);
+      break;
+    }
+    default:
+      break;
+  }
+  return Data;
+};
+
+export const GetInfo = async (action, data) => {
+  let Data;
+  switch (action) {
+    case types.DETAILBLOCK: {
+      const response = await axios.get(`http://49.50.162.172/api/v1/block/${data}`);
+      const { block } = response.data.result;
+      Data = block;
+      break;
+    }
+    case types.DETAILTX: {
+      const response = await axios.get(`http://49.50.162.172/api/v1/txs/${data}`);
+      const { txInfo } = response.data.result;
+      Data = txInfo;
       break;
     }
     default:

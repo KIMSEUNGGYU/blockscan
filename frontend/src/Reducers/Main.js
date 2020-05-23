@@ -1,11 +1,5 @@
-import { handleActions } from "redux-actions";
-import {
-  REQUESTBLOCKS,
-  REQUESTTXS,
-  REQUEST,
-  SUCCESS,
-  FAILURE,
-} from "../Action/ActionTypes";
+import { handleActions } from 'redux-actions';
+import { REQUESTBLOCKS, REQUESTTXS, REQUEST, SUCCESS, FAILURE } from '../Action/ActionTypes';
 
 const initialState = {
   loading: {
@@ -19,7 +13,7 @@ const initialState = {
 
 const MainReducer = handleActions(
   {
-    [REQUEST]: (state) => ({
+    [REQUEST]: state => ({
       ...state,
       loading: {
         ...state.loading,
@@ -47,7 +41,7 @@ const MainReducer = handleActions(
       Txs: action.payload,
     }),
 
-    [FAILURE]: (state) => ({
+    [FAILURE]: state => ({
       ...state,
       loading: {
         ...state.loading,
@@ -57,7 +51,7 @@ const MainReducer = handleActions(
       },
     }),
 
-    [SUCCESS]: (state) => ({
+    [SUCCESS]: state => ({
       ...state,
       loading: {
         ...state.loading,
@@ -65,6 +59,6 @@ const MainReducer = handleActions(
       },
     }),
   },
-  initialState
+  initialState,
 );
 export default MainReducer;

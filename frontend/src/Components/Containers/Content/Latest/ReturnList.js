@@ -15,7 +15,7 @@ const ReturnList = ({
   useEffect(() => {
     LatestBlocks();
     LatestTxs();
-  }, [Request]);
+  }, [Request, LatestBlocks, LatestTxs]);
 
   return (
     <RenderList REQUESTBLOCKS={LoadingBlocks} REQUESTTXS={LoadingTxs} Blocks={Blocks} Txs={Txs} />

@@ -5,6 +5,7 @@ import Ethereum from '../../../Assets/Footerethereum.svg';
 import Map from '../../../Assets/Map.png';
 
 const Footer = styled.div`
+  width: 100%;
   height: 20%;
   padding: 32px 0 20px;
   font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
@@ -14,7 +15,7 @@ const Footer = styled.div`
 `;
 
 const FooterInner = styled.div`
-  width: 66%;
+  width: 950px;
   margin: 0 auto;
   display: block;
   justify-content: space-between;
@@ -22,7 +23,7 @@ const FooterInner = styled.div`
 
 const NameAndInfoBox = styled.div`
   display: block;
-  color: white;
+  color: ${props => props.theme.background};
   background-image: url(${Map});
   background-repeat: no-repeat;
 `;
@@ -51,22 +52,22 @@ const DarkNightMode = styled.button`
   align-items: center;
   background: none;
   border: none;
-  color: white;
+  color: ${props => props.theme.background};
   background: rgba(248, 249, 250, 0.1);
   border-radius: 5px;
   padding: 5px;
   /* 다크모드 소스 추가예정 */
   &:hover {
-    background-color: white;
+    background-color: ${props => props.theme.background};
     .hoverColor {
-      color: black;
+      color: ${props => props.theme.black};
     }
   }
 `;
 
 const StyledHr = styled.hr`
   margin: 28px 0 16px 0;
-  border-top: 0.1px solid #e7eaf3;
+  border-top: 0.1px solid ${props => props.theme.etherinfo};
   opacity: 0.2;
 `;
 
@@ -77,7 +78,7 @@ const YearsDiv = styled.div`
 `;
 
 const YearsBox = styled.div`
-  color: white;
+  color: ${props => props.theme.background};
 `;
 
 const RenderFooter = () => {

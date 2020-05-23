@@ -5,17 +5,19 @@ import { MainTimeToText } from '../../../../helper/translate';
 import styled from 'styled-components';
 
 const TimeStampBox = styled.div`
-  color: #77838f;
+  color: ${props => props.theme.draksubtitle};
   font-size: 10px;
 `;
 
 const TimeItems = ({ timestamp }) => {
   const [time, setTime] = useState();
+  // console.log(match);
   useEffect(() => {
-    setInterval(() => {
+    const interval = setInterval(() => {
       setTime(GetTime(timestamp, MAINTIME));
     }, 1000);
-  }, [time]);
+    return () => clearInterval(interval);
+  }, [timestamp]);
 
   if (time !== undefined) {
     return <TimeStampBox>{MainTimeToText({ time })}</TimeStampBox>;
