@@ -191,7 +191,6 @@ const RenderList = ({ location, path }) => {
     let Data, Total;
     if (path === 'blocks') {
       const { blocks, totalBlock } = await GetAll(BLOCKSALL, page, option);
-      console.log('components', blocks);
       Data = blocks;
       Total = totalBlock;
     } else if (path === 'txs') {
@@ -205,7 +204,6 @@ const RenderList = ({ location, path }) => {
       setTotal(Total);
       setEndPage(parseInt(total / option) + 1);
       setLoading(false);
-      console.log('in if', datas);
     }
   }, [option, total, page, path]);
 

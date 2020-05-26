@@ -17,13 +17,11 @@ const GetTxs = (data, total) => {
     return txs;
   }
   const { txs, totalTx } = data.result;
-  // console.log(txs, totalTx);
-  console.log(data.result);
   return { txs, totalTx };
 };
 
-// const BASE_URL = 'http://49.50.162.172';
-const BASE_URL = 'http://localhost:3030';
+const BASE_URL = 'http://49.50.162.172';
+// const BASE_URL = 'http://localhost:3030';
 
 export const GetApi = async action => {
   let Data;
