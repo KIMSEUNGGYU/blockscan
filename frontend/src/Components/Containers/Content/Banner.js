@@ -1,33 +1,29 @@
 import React from 'react';
 import styled from 'styled-components';
-import banner from '../../../Assets/banner.png';
+import Banner from '../../../Assets/banner.png';
 
 const BannerDiv = styled.div`
   height: 76.5px;
   display: flex;
   justify-content: center;
   margin: 0 0 20px;
+  /* border: 1px solid black; */
 `;
 
 const BannerBox = styled.div`
-  width: 967px;
-  border: 1px solid black;
+  width: 75%;
   border-radius: 0.25rem;
-  background-color: white;
+  background-image: url(${props => props.url});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  /* border: 1px solid black; */
 `;
-const BannerImg = styled.img`
-  width: 40%;
-`;
-const A = styled.a``;
 
 export default () => {
   return (
-    <A
-      href='https://www.notion.so/IGMM-BLOCK-EXPLORER-88a81bf42fbc40b2b614724562dde11b'
-      target='_blank'>
-      <BannerDiv>
-        <BannerImg src={banner} />
-      </BannerDiv>
-    </A>
+    <BannerDiv>
+      <BannerBox url={Banner} />
+    </BannerDiv>
   );
 };

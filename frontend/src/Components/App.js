@@ -1,21 +1,20 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
+import { BrowserRouter } from 'react-router-dom';
 import GlobalStyle from '../Styles/GlobalStyle';
 import Theme from '../Styles/Theme';
 import Header from './Containers/Header/ReturnHeader';
+import Routes from '../Routes/Routes';
 import Footer from './Containers/Footer/ReturnFooter';
-import DetailBlock from './Containers/Content/Detail/ReturnDetail';
-import DetailTx from './Containers/Content/Detail/ReturnDetailTxs';
-import ReturnBlocksList from './Containers/Content/List/ReturnBlocksList';
-import ReturnTxsList from './Containers/Content/List/ReturnTxsList';
-import Index from './Containers/Content/Index/ReturnIndex';
 
-const Main = styled.div`
-  background-color: #f8f9fa;
+const Wrapper = styled.div`
+  width: 100%;
+  height: 100%;
 `;
-const MainInner = styled.div`
-  width: 66%;
+
+const WrapperInner = styled.div`
+  width: 950px;
+  height: 100%;
   margin: 0 auto;
 `;
 
@@ -23,19 +22,15 @@ const App = () => {
   return (
     <ThemeProvider theme={Theme}>
       <GlobalStyle />
-      <Header />
-      <Main>
-        <MainInner>
-          {/* <Index /> */}
-          <Route path='/' exact={true} component={Index} />
-          <Route path='/blocks/' exact={true} component={ReturnBlocksList} />
-          <Route path='/block/:blockNumber' component={DetailBlock} />
-          <Route path='/txs/' exact={true} component={ReturnTxsList} />
-          {/* 해당 부분이 txsList 컴포넌트*/}
-          <Route path='/txs/:txHash' component={DetailTx} />
-        </MainInner>
-      </Main>
-      <Footer />
+      <BrowserRouter>
+        <Wrapper>
+          <Header />
+          <WrapperInner>
+            <Routes />
+          </WrapperInner>
+          <Footer />
+        </Wrapper>
+      </BrowserRouter>
     </ThemeProvider>
   );
 };

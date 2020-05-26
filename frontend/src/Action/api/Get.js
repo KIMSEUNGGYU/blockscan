@@ -2,32 +2,32 @@ import axios from 'axios';
 import qs from 'qs';
 import * as types from '../ActionTypes';
 
-const GetBlocks = data => {
-  const { blocks } = data.result;
-  return blocks;
-};
-
-const GetTxs = data => {
-  const { txs } = data.result;
-  return txs;
-};
-
-const GetBlockList = data => {
+const GetBlocks = (data, total) => {
+  if (total === undefined) {
+    const { blocks } = data.result;
+    return blocks;
+  }
   const { blocks, totalBlock } = data.result;
   return { blocks, totalBlock };
 };
 
-const GetTxsList = data => {
-  // const { txs } = data.result;
+const GetTxs = (data, total) => {
+  if (total === undefined) {
+    const { txs } = data.result;
+    return txs;
+  }
   const { txs, totalTx } = data.result;
+  // console.log(txs, totalTx);
+  console.log(data.result);
   return { txs, totalTx };
-
-  // return { txs };
 };
+
+// const BASE_URL = 'http://49.50.162.172';
+const BASE_URL = 'http://localhost:3030';
 
 export const GetApi = async action => {
   let Data;
-  const result = await axios.get('http://49.50.162.172/api/v1');
+  const result = await axios.get(BASE_URL + '/api/v1');
   const data = result.data;
   switch (action) {
     case types.LATESTBLOCKS: {
@@ -46,12 +46,17 @@ export const GetApi = async action => {
 
 export const GetAll = async (action, p, pn) => {
   let Data;
-  const result = await axios.get('http://49.50.162.172/api/v1/blocks?' + qs.stringify({ p, pn }));
-  const data = result.data;
-
   switch (action) {
     case types.BLOCKSALL: {
-      Data = GetBlockList(data);
+      const result = await axios.get(BASE_URL + '/api/v1/blocks?' + qs.stringify({ p, pn }));
+      const data = result.data;
+      Data = GetBlocks(data, true);
+      break;
+    }
+    case types.TXSALL: {
+      const result = await axios.get(BASE_URL + '/api/v1/txs?' + qs.stringify({ p, pn }));
+      const data = result.data;
+      Data = GetTxs(data, true);
       break;
     }
     default:
@@ -60,14 +65,19 @@ export const GetAll = async (action, p, pn) => {
   return Data;
 };
 
-export const GetTxAll = async (action, p, pn) => {
+export const GetInfo = async (action, data) => {
   let Data;
-  const result = await axios.get('http://49.50.162.172/api/v1/txs?' + qs.stringify({ p, pn }));
-  const data = result.data;
-
   switch (action) {
-    case types.TXSALL: {
-      Data = GetTxsList(data);
+    case types.DETAILBLOCK: {
+      const response = await axios.get(BASE_URL + `/api/v1/block/${data}`);
+      const { block } = response.data.result;
+      Data = block;
+      break;
+    }
+    case types.DETAILTX: {
+      const response = await axios.get(BASE_URL + `/api/v1/txs/${data}`);
+      const { txInfo } = response.data.result;
+      Data = txInfo;
       break;
     }
     default:

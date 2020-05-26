@@ -7,7 +7,7 @@ const viewTxs = (txs, totalTx) => {
       txs,
       totalTx,
     },
-    total: txs.length,
+    // totalTx: totalTx.length,
   };
 };
 

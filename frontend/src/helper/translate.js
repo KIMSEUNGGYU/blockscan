@@ -1,88 +1,84 @@
-function hexToString(hex) {
+export const hexToString = hex => {
   let string = '';
   for (let i = 0; i < hex.length; i += 2) {
     string += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
   }
   return string;
-}
+};
 
-const SECOND = 1000;
-const MINUTE = 60 * SECOND;
-const HOUR = 60 * MINUTE;
-const DAY = 24 * HOUR;
+export const MainTimeToText = ({ time }) => {
+  return time.Minutes
+    ? time.Minutes + ' mins ' + time.Seconds + ' secs ago'
+    : time.Seconds
+    ? time.Seconds + ' secs ago'
+    : null;
+};
 
-function translateTimestamp2(timestamp) {
-  let time = Date.now() - timestamp;
+export const DetailTimeToText = time => {
+  return time.Days
+    ? time.Days +
+        ' days ' +
+        time.Hours +
+        ' hrs ' +
+        time.Minutes +
+        ' mins ' +
+        time.Seconds +
+        'secs ago'
+    : time.Hours
+    ? time.Hours + 'hrs ' + time.Minutes + ' mins ' + time.Seconds + ' secs ago'
+    : time.Minutes
+    ? time.Minutes + ' mins ' + time.Seconds + ' secs ago'
+    : time.Seconds
+    ? time.Seconds + ' secs ago'
+    : null;
+};
 
-  let times = [];
-  times.push(parseInt(time / DAY));
-  time %= DAY;
-  times.push(parseInt(time / HOUR));
-  time %= HOUR;
-  times.push(parseInt(time / MINUTE));
-  time %= MINUTE;
-  times.push(parseInt(time / SECOND));
-
-  let count = 0;
-  let timeString = '';
-  if (times[0]) {
-    timeString += times[0] + ' days ';
-    count += 1;
+export const CuttingData = (data, Cutoption) => {
+  if (data != null) {
+    const preData = data;
+    const result = preData.toFixed(Cutoption);
+    return result;
   }
-  if (times[1]) {
-    timeString += times[1] + ' hrs ';
-    count += 1;
+  return data;
+};
+
+export const TranslateDetailText = path => {
+  const array = [];
+  if (path === 'block') {
+    array.push(
+      'Block Height:',
+      'Timestamp:',
+      'Transactions:',
+      'Mined by:',
+      'Block Reward:',
+      'Uncles Reward:',
+      'Difficulty:',
+      'Total Difficulty:',
+      'Size:',
+      'Gas Used:',
+      'Gas Limit:',
+      'Extra Data:',
+      'Hash:',
+      'Parent Hash:',
+      'Sha3Uncles:',
+      'Nonce:',
+    );
+  } else {
+    array.push(
+      'Transaction Hash:',
+      'Status:',
+      'Block:',
+      'Timestamp:',
+      'From:',
+      'To:',
+      'Value:',
+      'Transaction Fee:',
+      'Gas Limit:',
+      'Gas Used by Transaction:',
+      'Gas Price:',
+      'Nonce:',
+      'Input Data:',
+    );
   }
-
-  if (times[2] && count < 2) {
-    timeString += times[2] + ' mins ';
-    count += 1;
-  }
-  if (times[3] && count < 2) {
-    timeString += times[3] + ' secs';
-  }
-
-  timeString += ' ago';
-
-  // console.log(timeString);
-  return timeString;
-}
-
-function translateTimestamp(timestamp) {
-  let time = Date.now() - timestamp * SECOND;
-
-  let times = [];
-  times.push(parseInt(time / DAY));
-  time %= DAY;
-  times.push(parseInt(time / HOUR));
-  time %= HOUR;
-  times.push(parseInt(time / MINUTE));
-  time %= MINUTE;
-  times.push(parseInt(time / SECOND));
-
-  let count = 0;
-  let timeString = '';
-  if (times[0]) {
-    timeString += times[0] + ' days ';
-    count += 1;
-  }
-  if (times[1]) {
-    timeString += times[1] + ' hrs ';
-    count += 1;
-  }
-
-  if (times[2] && count < 2) {
-    timeString += times[2] + ' mins ';
-    count += 1;
-  }
-  if (times[3] && count < 2) {
-    timeString += times[3] + ' secs';
-  }
-
-  timeString += ' ago';
-
-  // console.log(timeString);
-  return timeString;
-}
-
-export { hexToString, translateTimestamp, translateTimestamp2 };
+  return array;
+};

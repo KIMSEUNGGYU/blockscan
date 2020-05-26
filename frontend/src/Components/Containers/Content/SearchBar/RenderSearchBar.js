@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import Select from 'react-select';
-import ReactSearchBox from 'react-search-box';
 import FilterData from './FilterData';
+import Select from 'react-dropdown-select';
 
 const Search = styled.div`
   height: 30%;
@@ -12,15 +12,13 @@ const Search = styled.div`
   border-radius: 0.25rem;
 `;
 
-const SearchInner = styled.div`
-  /* border: 1px solid black; */
-`;
+const SearchInner = styled.div``;
 
 const TitleBox = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: white;
+  color: ${props => props.theme.background};
   margin-bottom: 8px;
 `;
 
@@ -29,7 +27,7 @@ const SearchBarTitle = styled.h2``;
 const QuickLinks = styled.h3`
   font-size: 0.8125rem;
   cursor: pointer;
-  border-bottom: 1px dashed #97a4af;
+  border-bottom: 1px dashed ${props => props.theme.subtitle};
   font-size: 70%;
   margin: 5px;
 `;
@@ -37,21 +35,20 @@ const QuickLinks = styled.h3`
 const SearchBox = styled.div`
   width: 100%;
   display: flex;
-  z-index: 2;
+  font-size: 13px;
 `;
 
 const StyledSelect = styled(Select)`
-  width: 9%;
-  height: 100%;
-  display: block;
-  font-size: 0.8125rem;
+  background-color: ${props => props.theme.background};
+  font-size: 14px;
 `;
 
 const StyledSearchBox = styled.input`
-  width: 85%;
-  border-top-right-radius: 0.125rem;
-  border-bottom-right-radius: 0.125rem;
-  z-index: 1;
+  width: 84%;
+  border: none;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+  padding: 12px 16px;
 `;
 
 const StyledButton = styled.button`
@@ -59,7 +56,7 @@ const StyledButton = styled.button`
   color: white;
   margin-left: -1px;
   padding: 11px 12px;
-  background-color: #3498db;
+  background-color: ${props => props.theme.button};
   border: none;
   border-radius: 0.25rem;
   cursor: pointer;
@@ -68,10 +65,43 @@ const StyledButton = styled.button`
 `;
 
 const RenderSearchBar = () => {
-  const [select, setSelect] = useState(FilterData[0]);
+  let history = useHistory();
+  const [option, setOption] = useState();
+  const [text, setText] = useState();
 
-  const handleChange = select => {
-    setSelect(select);
+  const onSelect = option => {
+    setOption(option);
+  };
+
+  const onInput = Text => {
+    setText(Text);
+  };
+
+  const subMitRouting = () => {
+    /* 데모 라우팅 , 백엔드 API 필요함*/
+    /*데이터 존재 유무에따라 Not Found 페이지 필요함*/
+    const value = option[0].value;
+
+    switch (value) {
+      case 'All': {
+        if (text.search('0x') === 0) {
+          history.push(`/tx/${text}`);
+        } else {
+          history.push(`/block/${text}`);
+        }
+        break;
+      }
+      case 'Transaction': {
+        history.push(`/tx/${text}`);
+        break;
+      }
+      case 'Block': {
+        history.push(`/block/${text}`);
+        break;
+      }
+      default:
+        break;
+    }
   };
 
   return (
@@ -83,13 +113,20 @@ const RenderSearchBar = () => {
         </TitleBox>
         <SearchBox>
           <StyledSelect
-            defaultValue={select}
-            value={select}
-            onChange={handleChange}
+            dropdownGap={0}
             options={FilterData}
+            values={[FilterData[0]]}
+            onChange={value => {
+              onSelect(value);
+            }}
           />
-          <StyledSearchBox />
-          <StyledButton>Search</StyledButton>
+          <StyledSearchBox
+            placeholder={'Search by Address / Txn Hash / Block / Token / Ens'}
+            onChange={e => {
+              onInput(e.target.value);
+            }}
+          />
+          <StyledButton onClick={() => subMitRouting()}>Search</StyledButton>
         </SearchBox>
       </SearchInner>
     </Search>
