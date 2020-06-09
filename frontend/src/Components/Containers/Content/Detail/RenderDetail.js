@@ -14,25 +14,27 @@ const DetailSection = styled.div`
 `;
 
 const SectionTitle = styled.div`
-  height: 80px;
-  line-height: 80px;
+  height: 10%;
+  margin: 20px 0;
   display: flex;
 `;
 
 const PageTitle = styled.h1`
-  font-size: 30px;
+  font-size: 19px;
 `;
 
 const SubTitle = styled.p`
   margin-left: 15px;
-  font-size: 23px;
+  font-size: 15px;
   color: ${props => props.theme.draksubtitle};
 `;
 
 const SectionOptions = styled.div`
-  height: 80px;
-  line-height: 80px;
-  font-size: 19px;
+  display: block;
+  height: 5%;
+  margin: 20px 0;
+  line-height: 25px;
+  font-size: 14px;
   color: ${props => props.theme.draksubtitle};
 `;
 
@@ -48,13 +50,14 @@ const StyledLink = styled(Link)`
 `;
 
 const SectionContents = styled.div`
+  width: 100%;
   background-color: ${props => props.theme.background};
   border: 1px solid ${props => darken(0.1, props.theme.subtitle)};
+  font-size: 15px;
 `;
 
 const ContentTitle = styled.div`
   border-bottom: 2px solid ${props => darken(0.1, props.theme.subtitle)};
-  font-size: 20px;
   font-weight: 700;
   color: ${props => props.theme.button};
   display: flex;
@@ -72,23 +75,73 @@ const ContentLi = styled.li`
 `;
 
 const ContentItemSection = styled.div`
+  width: 99%;
   margin-left: 1%;
 `;
 
 const ContentItems = styled.div`
-  height: 40px;
   width: 97%;
-  line-height: 40px;
   padding: 10px;
   display: flex;
   border-bottom: 2px solid ${props => props.theme.line};
-  font-size: 18px;
+  font-size: 14px;
+  @media only screen and (max-width: 767px) {
+    flex-direction: column;
+  }
+
+  @media only screen and (min-width: 768px) {
+    flex-direction: none;
+  }
 `;
 const ItemTitle = styled.div`
-  width: 20%;
+  /* width: 20%; */
+  @media only screen and (max-width: 767px) {
+    /* flex-direction: column; */
+    width: 100%;
+    height: fit-content;
+    margin: 5px 0px;
+  }
+
+  @media only screen and (min-width: 768px) {
+    /* flex-direction: none; */
+    width: 20%;
+    display: flex;
+    align-items: center;
+  }
 `;
 const ItemValue = styled.div`
+  width: 100%;
   display: flex;
+  overflow-wrap: anywhere;
+  height: fit-content;
+  margin: 10px 0px;
+`;
+
+const StatusDiv = styled.div`
+  background-color: ${props => (props.Success ? props.theme.success : props.theme.fail)};
+  color: ${props => (props.Success ? props.theme.successtext : props.theme.failtext)};
+  border-radius: 0.25px;
+  padding: 0px 11px;
+  .IconColor {
+    color: ${props => (props.Success ? props.theme.successtext : props.theme.failtext)};
+  }
+`;
+
+const StatusInner = styled.div`
+  font-size: 14px;
+  padding: 10px 0px;
+`;
+
+const ValueDiv = styled.div`
+  display: flex;
+  background-color: ${props => props.theme.etherbackgroundcolor};
+  border-radius: 5px;
+  padding: 0 8px;
+`;
+
+const ValueInner = styled.div`
+  font-size: 14px;
+  padding: 10px 0px;
 `;
 
 const StatusDiv = styled.div`
@@ -119,7 +172,7 @@ const ValueInner = styled.div`
 const TransactionDiv = styled.div`
   border-radius: 7px;
   height: 90%;
-  padding: 0 10px;
+  padding: 10px 10px;
   font-size: 17px;
   background-color: ${props => lighten(0.42, props.theme.button)};
   &:hover {
@@ -187,6 +240,7 @@ const RenderDetail = ({ match }) => {
 
   useEffect(() => {
     GetDatas();
+    return () => {};
   }, [GetDatas]);
 
   return (
@@ -239,7 +293,7 @@ const RenderDetail = ({ match }) => {
                   <ItemTitle> {Title[1]} </ItemTitle>
                   <ItemValue>
                     {path === 'block' ? (
-                      DetailTimeToText(GetTime(data.timestamp, VIEWTIME))
+                      DetailTimeToText(GetTime(data.timestamp, VIEWTIME), 'long')
                     ) : data.status === 1 ? (
                       <StatusDiv Success>
                         <StatusInner>
@@ -283,7 +337,9 @@ const RenderDetail = ({ match }) => {
                       </ValueA>
                     </ItemValue>
                   ) : (
-                    <ItemValue>{DetailTimeToText(GetTime(data.timestamp, VIEWTIME))}</ItemValue>
+                    <ItemValue>
+                      {(DetailTimeToText(GetTime(data.timestamp, VIEWTIME)), 'long')}
+                    </ItemValue>
                   )}
                 </ContentItems>
                 <ContentItems>

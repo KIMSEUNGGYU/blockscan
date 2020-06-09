@@ -14,23 +14,35 @@ export const MainTimeToText = ({ time }) => {
     : null;
 };
 
-export const DetailTimeToText = time => {
-  return time.Days
-    ? time.Days +
-        ' days ' +
-        time.Hours +
-        ' hrs ' +
-        time.Minutes +
-        ' mins ' +
-        time.Seconds +
-        'secs ago'
-    : time.Hours
-    ? time.Hours + 'hrs ' + time.Minutes + ' mins ' + time.Seconds + ' secs ago'
-    : time.Minutes
-    ? time.Minutes + ' mins ' + time.Seconds + ' secs ago'
-    : time.Seconds
-    ? time.Seconds + ' secs ago'
-    : null;
+export const DetailTimeToText = (time, option) => {
+  if (option === 'short') {
+    return time.Days
+      ? time.Days + ' days ' + time.Hours + ' hrs ago'
+      : time.Hours
+      ? time.Hours + 'hrs ' + time.Minutes + ' mins ' + time.Seconds + ' secs ago'
+      : time.Minutes
+      ? time.Minutes + ' mins ' + time.Seconds + ' secs ago'
+      : time.Seconds
+      ? time.Seconds + ' secs ago'
+      : null;
+  } else if (option === 'long') {
+    return time.Days
+      ? time.Days +
+          ' days ' +
+          time.Hours +
+          ' hrs ' +
+          time.Minutes +
+          ' mins ' +
+          time.Seconds +
+          'secs ago'
+      : time.Hours
+      ? time.Hours + 'hrs ' + time.Minutes + ' mins ' + time.Seconds + ' secs ago'
+      : time.Minutes
+      ? time.Minutes + ' mins ' + time.Seconds + ' secs ago'
+      : time.Seconds
+      ? time.Seconds + ' secs ago'
+      : null;
+  }
 };
 
 export const CuttingData = (data, Cutoption) => {

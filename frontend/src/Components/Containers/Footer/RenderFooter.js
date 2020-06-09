@@ -7,18 +7,60 @@ import Map from '../../../Assets/Map.png';
 const Footer = styled.div`
   width: 100%;
   height: 20%;
-  padding: 32px 0 20px;
+
   font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
   background-image: linear-gradient(150deg, #19a0ff, #2d1582);
   background-attachment: fixed;
-  margin-top: 55px;
+
+  @media only screen and (max-width: 479.98px) {
+    /*  */
+    padding: 20px 0px;
+  }
+  @media only screen and (min-width: 480px) and (max-width: 767px) {
+    /*  */
+    padding: 20px 0px;
+  }
+  @media only screen and (min-width: 768px) {
+    /*  */
+    /* width: 710px; */
+    padding: 32px 0 20px;
+  }
+  @media only screen and (min-width: 1024px) {
+    /* width: 820px; */
+    margin-top: 20px;
+  }
+  @media only screen and (min-width: 1200px) {
+    /* width: 820px; */
+    margin-top: 40px;
+  }
 `;
 
 const FooterInner = styled.div`
-  width: 950px;
   margin: 0 auto;
   display: block;
   justify-content: space-between;
+
+  @media only screen and (max-width: 479.98px) {
+    /*  */
+    width: 95%;
+  }
+  @media only screen and (min-width: 480px) and (max-width: 767px) {
+    /*  */
+    width: 95%;
+  }
+  @media only screen and (min-width: 768px) {
+    /*  */
+    width: 710px;
+  }
+  @media only screen and (min-width: 1024px) {
+    width: 820px;
+  }
+  @media only screen and (min-width: 1200px) {
+    width: 950px;
+  }
+  @media only screen and (min-width: 1400px) {
+    width: 1200px;
+  }
 `;
 
 const NameAndInfoBox = styled.div`
@@ -56,7 +98,7 @@ const DarkNightMode = styled.button`
   background: rgba(248, 249, 250, 0.1);
   border-radius: 5px;
   padding: 5px;
-  /* 다크모드 소스 추가예정 */
+
   &:hover {
     background-color: ${props => props.theme.background};
     .hoverColor {
@@ -82,6 +124,9 @@ const YearsBox = styled.div`
 `;
 
 const RenderFooter = () => {
+  const DarkMode = () => {
+    // Dark 모드
+  };
   return (
     <Footer>
       <FooterInner>
@@ -97,7 +142,7 @@ const RenderFooter = () => {
             platform.
           </InfoBox>
           <DarkNightMode>
-            <FaMoon className='hoverColor' />
+            <FaMoon className='hoverColor' onClick={DarkMode()} />
           </DarkNightMode>
         </NameAndInfoBox>
         <StyledHr />
