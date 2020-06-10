@@ -40,6 +40,8 @@ const SectionOptions = styled.div`
 
 const ItemBold = styled.b`
   font-weight: bold;
+  display: flex;
+  align-items: center;
 `;
 
 const StyledLink = styled(Link)`
@@ -112,6 +114,7 @@ const ItemTitle = styled.div`
 const ItemValue = styled.div`
   width: 100%;
   display: flex;
+  align-items: center;
   overflow-wrap: anywhere;
   height: fit-content;
   margin: 10px 0px;
@@ -142,31 +145,6 @@ const ValueDiv = styled.div`
 const ValueInner = styled.div`
   font-size: 14px;
   padding: 10px 0px;
-`;
-
-const StatusDiv = styled.div`
-  background-color: ${props => (props.Success ? props.theme.success : props.theme.fail)};
-  color: ${props => (props.Success ? props.theme.successtext : props.theme.failtext)};
-  border-radius: 0.25px;
-  padding: 0px 11px;
-  .IconColor {
-    color: ${props => (props.Success ? props.theme.successtext : props.theme.failtext)};
-  }
-`;
-
-const StatusInner = styled.div`
-  font-size: 14px;
-`;
-
-const ValueDiv = styled.div`
-  display: flex;
-  background-color: ${props => props.theme.etherbackgroundcolor};
-  border-radius: 5px;
-  padding: 0 8px;
-`;
-
-const ValueInner = styled.div`
-  font-size: 14px;
 `;
 
 const TransactionDiv = styled.div`
