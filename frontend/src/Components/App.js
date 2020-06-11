@@ -13,9 +13,31 @@ const Wrapper = styled.div`
 `;
 
 const WrapperInner = styled.div`
-  width: 950px;
   height: 100%;
   margin: 0 auto;
+
+  @media only screen and (max-width: 479.98px) {
+    /*  */
+    width: 95%;
+  }
+  @media only screen and (min-width: 480px) and (max-width: 767px) {
+    /*  */
+    width: 95%;
+  }
+  @media only screen and (min-width: 768px) {
+    /*  */
+    width: 710px;
+  }
+  @media only screen and (min-width: 1024px) {
+    width: 820px;
+  }
+  @media only screen and (min-width: 1200px) {
+    width: 950px;
+  }
+  @media only screen and (min-width: 1400px) {
+    /*  */
+    width: 1200px;
+  }
 `;
 
 const App = () => {

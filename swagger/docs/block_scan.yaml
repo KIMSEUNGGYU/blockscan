@@ -1,0 +1,418 @@
+paths:
+  /:
+    get:
+      tags:
+        - api/v1
+      summary: get index page infos
+      security:
+        - ApiKeyAuth: []
+      responses:
+        200:
+          description: 'Success'
+          schema:
+            $ref: '#/definitions/200'
+        403:
+          description: 'Auth Error'
+          schema:
+            $ref: '#/definitions/403'
+        404:
+          description: 'Not found Error'
+          schema:
+            $ref: '#/definitions/404'
+          
+  /blocks:
+    get:
+      tags:
+      - api/v1
+      summary: get block details page info
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: query
+          name: p
+          type: integer
+          description: "Page Element Count"
+        - in: query
+          name: pn
+          type: integer
+          description: "Page Number"
+      responses:
+        200:
+          description: 'Success'
+          schema:
+            $ref: '#/definitions/200'
+        403:
+          description: 'Auth Error'
+          schema:
+            $ref: '#/definitions/403'
+        404:
+          description: 'Not found Error'
+          schema:
+            $ref: '#/definitions/404'
+  
+  /block/{blocknumber}:
+    get:
+      tags:
+      - api/v1
+      summary: get block detail info by block number
+      security:
+        - ApiKeyAuth: []
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+        - in: path
+          name: blocknumber
+          type: integer
+          required: true
+      responses:
+        200:
+          description: 'Success'
+          schema:
+            $ref: '#/definitions/200'
+        403:
+          description: 'Auth Error'
+          schema:
+            $ref: '#/definitions/403'
+        404:
+          description: 'Not found Error'
+          schema:
+            $ref: '#/definitions/404'
+  /txs:
+    get:
+      tags:
+      - api/v1
+      summary: get txs list infos
+      security:
+        - ApiKeyAuth: []
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+        - in: query
+          name: p
+          type: integer
+          description: "Page Element Count"
+        - in: query
+          name: pn
+          type: integer
+          description: "Page Number"
+      responses:
+        200:
+          description: 'Success'
+          schema:
+            $ref: '#/definitions/200'
+        403:
+          description: 'Auth Error'
+          schema:
+            $ref: '#/definitions/403'
+        404:
+          description: 'Not found Error'
+          schema:
+            $ref: '#/definitions/404'
+          
+  /tx/{tx_hash}:
+    get:
+      tags:
+      - api/v1
+      summary: get xt infos
+      security:
+        - ApiKeyAuth: []
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: tx_hash
+        type: string
+        required: true
+      responses:
+        200:
+          description: 'Success'
+          schema:
+            $ref: '#/definitions/200'
+        403:
+          description: 'Auth Error'
+          schema:
+            $ref: '#/definitions/403'
+        404:
+          description: 'Not found Error'
+          schema:
+            $ref: '#/definitions/404'
+            
+  /txPending:
+    get:
+      tags:
+      - api/v1
+      summary: get tx infos
+      security:
+        - ApiKeyAuth: []
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        200:
+          description: 'Success'
+          schema:
+            $ref: '#/definitions/200'
+        403:
+          description: 'Auth Error'
+          schema:
+            $ref: '#/definitions/403'
+        404:
+          description: 'Not found Error'
+          schema:
+            $ref: '#/definitions/404'
+
+securityDefinitions:
+  ApiKeyAuth:
+    type: apiKey
+    in: header
+    name: x-api-key
+
+definitions:
+  200:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int3
+        example: 200
+      status:
+        type: string
+        example: 'success'
+      message:
+        type: string
+        example: 'success'
+      result:
+        type: object
+        additionalProperties: {}
+    
+  403:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int3
+        example: 403
+      status:
+        type: string
+        example: 'Auth Fail'
+      message:
+        type: string
+        example: 'Check Header'
+      result:
+        type: object
+        properties:
+          data: {}
+    
+  404:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int3
+        example: 404
+      status:
+        type: string
+        example: 'Not Found'
+      message:
+        type: string
+        example: 'Not Found Element'
+      result:
+        type: object
+        properties:
+          data: {}
+
+  IndexBlocks:
+    type: object
+    required: 
+    - number
+    - miner
+    - txcount
+    - blockreward
+    properties:
+      number:
+        description: block height
+        type: integer
+      miner:
+        description: miner address
+        type: string
+      txcount:
+        description: tx count
+        type: integer
+      timestamp:
+        description: mine time
+        type: integer
+      blockreward:
+        description: award of block mining
+        type: number
+        format: float
+        
+  IndexTxs:
+    type: object
+    required: 
+    - hash
+    - from
+    - to
+    - txfee
+    properties:
+      hash:
+        description: tx hash value
+        type: string
+      from:
+        description: sender address value
+        type: string
+      to:
+        description: reciver address value
+        type: string
+      txfee:
+        description: tx free
+        type: number
+        format: float
+        
+  BlocksList:
+    type: object
+    required:
+      - number
+      - timestamp
+      - transactions
+      - uncles
+      - miner
+      - gasUsed
+      - gasLimit
+      - gasPriceAvg
+      - reward
+    properties:
+      number:
+        description: block hegiht
+        type: integer
+        format: int
+      timestamp:
+        description: mine time
+        type: string
+      transactions:
+        description: tx count in block
+        type: integer
+        format: int
+      uncles:
+        description: uncle block assoiacte that block
+        type: integer
+        format: int
+      miner:
+        description: miner address of mined block
+        type: string
+      gasUsed:
+        description: gas used
+        type: integer
+        format: int
+      gasLimit:
+        description: 사용할 가스에 대한 예측치
+        type: integer
+        format: int
+      gasPriceAvg:
+        description: gas price avarage of block include tx
+        type: number
+        format: float
+      reward:
+        description: award of block mining
+        type: number
+        format: float
+        
+  BlockDetail:
+    type: object
+    description: blockdetail info
+    properties:
+      number:
+        description: blockHeight
+        type: integer
+      timestamp:
+        description: timeStamp
+        type: string
+      transactions:
+        description: tx count,#contract tx count
+        type: integer
+      miner:
+        description: miner address
+        type: string
+      blockreward:
+        description: reward ether amount
+        type: number
+        format: float
+      unclesReward:
+        description: uncles reward ether amount
+        type: number
+        format: float
+      difficulty:
+        description: block difficulty
+        type: string
+      totalDifficulty:
+        description: total difficulty
+        type: string
+      size:
+        description: block size
+        type: number
+        format: float
+      gasUsed:
+        description: total used gas
+        type: number
+        format: float
+      gasLimit:
+        description: total limit gas
+        type: number
+        format: float
+      extraData:
+        description: miner data
+        type: string
+      hash:
+        description: block hash
+        type: string
+      parentHash:
+        description: parent block hash
+        type: string
+      sha3Uncles:
+        description: uncle block hash
+        type: string
+      Nonce:
+        description: nonce hash
+        type: string
+        
+  Txs:
+    type: object
+    description: txs list
+    required: 
+    - hash
+    - block
+    - age
+    - from
+    - to
+    - value
+    - txfee
+    properties:
+      hash:
+        description: tx hash
+        type: string
+      block:
+        description: block number
+        type: integer
+      age:
+        description: Elapsed time
+        type: string
+      from:
+        description: from address
+        type: string
+      to:
+        description: to address
+        type: string
+      value:
+        description: send ether amount
+        type: number
+        format: float
+      txfee:
+        description: tx fee
+        type: number
+        format: float

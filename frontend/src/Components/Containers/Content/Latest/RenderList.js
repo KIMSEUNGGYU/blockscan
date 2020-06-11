@@ -11,113 +11,251 @@ const StyledDiv = styled.div`
   line-height: 1.5;
   display: flex;
   justify-content: space-between;
-`;
 
-const StyledListInner = styled.div`
-  background-color: ${props => props.theme.background};
-  align-items: center;
-  box-shadow: 0 0.5rem 1.2rem ${props => props.theme.ethershadow};
-`;
-
-const StyledTitleBox = styled.div`
-  padding: 12px;
-  border-bottom: 1px solid ${props => props.theme.etherinfo};
+  @media only screen and (max-width: 479.98px) {
+    /*  */
+    flex-direction: column;
+  }
+  @media only screen and (min-width: 480px) and (max-width: 767px) {
+    /*  */
+    flex-direction: column;
+  }
+  @media only screen and (min-width: 768px) {
+    /*  */
+    width: 710px;
+    flex-direction: column;
+  }
+  @media only screen and (min-width: 1024px) {
+    /*  */
+    width: 820px;
+    height: 450px;
+    flex-direction: row;
+  }
+  @media only screen and (min-width: 1200px) {
+    /*  */
+    width: 950px;
+  }
+  @media only screen and (min-width: 1400px) {
+    width: 1200px;
+  }
 `;
 
 const StyledListBox = styled.div`
-  padding: 12px 12px 0px 12px;
-  display: flex;
+  align-items: center;
+  background-color: ${props => props.theme.background};
+  border: 1px solid ${prop => prop.theme.ethershadow};
+  box-shadow: 0 1px 1.2rem ${props => props.theme.ethershadow};
+
+  @media only screen and (max-width: 479.98px) {
+    /*  */
+    margin-bottom: 20px;
+  }
+  @media only screen and (min-width: 480px) and (max-width: 767px) {
+    /*  */
+    margin-bottom: 20px;
+  }
+  @media only screen and (min-width: 768px) {
+    /*  */
+    width: 710px;
+    margin-bottom: 20px;
+  }
+  @media only screen and (min-width: 1024px) {
+    /* 중간폭 20px */
+    width: 398px;
+    margin-bottom: 0%;
+  }
+  @media only screen and (min-width: 1200px) {
+    /*  */
+    width: 449px;
+  }
+  @media only screen and (min-width: 1400px) {
+    /*  */
+    width: 575px;
+  }
+  /* 중간 빈공간 고려 */
+
+  /* background-color: green; */
 `;
 
-const StyledSrollBarBox = styled.div`
-  height: 324px;
-  padding-right: 10px;
-  overflow: auto;
-  float: right;
-  /* 스크롤바 */
-  &::-webkit-scrollbar {
-    background-color: ${props => props.theme.background};
-    width: 1%;
+const StyledTitleBox = styled.div`
+  padding: 5px 0 0 12px;
+  height: 29px;
+  border-bottom: 1px solid ${props => props.theme.etherinfo};
+
+  @media only screen and (max-width: 479.98px) {
+    /*  */
   }
+  @media only screen and (min-width: 480px) and (max-width: 767px) {
+    /*  */
+  }
+  @media only screen and (min-width: 768px) {
+    /*  */
+  }
+  @media only screen and (min-width: 1024px) {
+    /*  */
+    width: 388px;
+  }
+  @media only screen and (min-width: 1200px) {
+    width: 438px;
+  }
+  @media only screen and (min-width: 1400px) {
+    /*  */
+    width: 563px;
+  }
+`;
+
+const TitleInner = styled.div`
+  height: 24px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  /* background-color: darkgrey; */
+
+  @media only screen and (max-width: 479.98px) {
+    /*  */
+  }
+  @media only screen and (min-width: 480px) and (max-width: 767px) {
+    /*  */
+  }
+  @media only screen and (min-width: 768px) {
+    /*  */
+  }
+  @media only screen and (min-width: 1024px) {
+    width: 388px;
+  }
+  @media only screen and (min-width: 1200px) {
+    width: 438px;
+  }
+  @media only screen and (min-width: 1400px) {
+    /*  */
+    width: 563px;
+  }
+`;
+
+const StyledListItemInner = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: scroll;
+  margin: 10px 0 0 12px;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+    background-color: ${props => props.theme.background};
+  }
+
   &::-webkit-scrollbar-thumb {
     background-color: ${props => props.theme.scrollthumb};
     border-radius: 16px;
   }
+
+  @media only screen and (max-width: 479.98px) {
+    /*  */
+    max-height: 364px;
+  }
+  @media only screen and (min-width: 480px) and (max-width: 767px) {
+    /*  */
+    max-height: 364px;
+  }
+  @media only screen and (min-width: 768px) {
+    /*  */
+    max-height: 364px;
+  }
+  @media only screen and (min-width: 1024px) {
+    /*  */
+    width: 388px;
+    /* max-height: 364px; */
+  }
+  @media only screen and (min-width: 1200px) {
+    width: 438px;
+  }
+  @media only screen and (min-width: 1400px) {
+    /*  */
+    width: 563px;
+  }
+
+  /* background-color: lightgray; */
 `;
 
 const ViewAllDiv = styled.div`
-  padding: 12px;
+  height: 44px;
   border-top: 1px solid ${props => props.theme.etherinfo};
   display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: ${props => props.theme.background};
+  /* background-color: green; */
 `;
 
 const ViewAllButton = styled(Link)`
-  width: 100%;
-  padding: 4.8px 9.6px;
+  width: 95%;
+  height: 25px;
   border: none;
   background-color: ${props => lighten(0.42, props.theme.button)};
   color: ${props => darken(0.1, props.theme.button)};
   text-decoration: none;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const RenderList = ({ REQUESTBLOCKS, REQUESTTXS, Blocks, Txs }) => {
   return (
     <StyledDiv>
-      <StyledListInner>
-        <StyledTitleBox>Latest Blocks</StyledTitleBox>
-        <StyledListBox>
-          <StyledSrollBarBox>
-            {REQUESTBLOCKS && null}
-            {!REQUESTBLOCKS &&
-              Blocks &&
-              !null &&
-              Blocks.map((data, index) => {
-                return (
-                  <BlockItem
-                    key={index}
-                    index={index}
-                    number={data.number}
-                    timestamp={data.timestamp}
-                    miner={data.miner}
-                    txCount={data.txCount}
-                    blockReward={data.blockReward}
-                  />
-                );
-              })}
-          </StyledSrollBarBox>
-        </StyledListBox>
+      <StyledListBox>
+        <StyledTitleBox>
+          <TitleInner>Latest Blocks</TitleInner>
+        </StyledTitleBox>
+        <StyledListItemInner>
+          {REQUESTBLOCKS && null}
+          {!REQUESTBLOCKS &&
+            Blocks &&
+            !null &&
+            Blocks.map((data, index) => {
+              return (
+                <BlockItem
+                  key={index}
+                  index={index}
+                  number={data.number}
+                  timestamp={data.timestamp}
+                  miner={data.miner}
+                  txCount={data.txCount}
+                  blockReward={data.blockReward}
+                />
+              );
+            })}
+        </StyledListItemInner>
         <ViewAllDiv>
           <ViewAllButton to={`/blocks`}>View all blocks</ViewAllButton>
         </ViewAllDiv>
-      </StyledListInner>
-      <StyledListInner>
-        <StyledTitleBox>Latest Transactions</StyledTitleBox>
-        <StyledListBox>
-          <StyledSrollBarBox>
-            {REQUESTTXS && null}
-            {!REQUESTTXS &&
-              Txs &&
-              !null &&
-              Txs.map((data, index) => {
-                return (
-                  <TxsItems
-                    key={index}
-                    index={index}
-                    hash={data.hash}
-                    timestamp={data.timestamp}
-                    from={data.from}
-                    to={data.to}
-                    txFee={data.txFee}
-                  />
-                );
-              })}
-          </StyledSrollBarBox>
-        </StyledListBox>
+      </StyledListBox>
+      <StyledListBox>
+        <StyledTitleBox>
+          <TitleInner>Latest Transactions</TitleInner>
+        </StyledTitleBox>
+        <StyledListItemInner>
+          {REQUESTTXS && null}
+          {!REQUESTTXS &&
+            Txs &&
+            !null &&
+            Txs.map((data, index) => {
+              return (
+                <TxsItems
+                  key={index}
+                  index={index}
+                  hash={data.hash}
+                  timestamp={data.timestamp}
+                  from={data.from}
+                  to={data.to}
+                  txFee={data.txFee}
+                />
+              );
+            })}
+        </StyledListItemInner>
         <ViewAllDiv>
           <ViewAllButton to={`/txs`}>View all transactions</ViewAllButton>
         </ViewAllDiv>
-      </StyledListInner>
+      </StyledListBox>
     </StyledDiv>
   );
 };
