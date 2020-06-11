@@ -131,12 +131,12 @@ const CharInner = styled.div`
   }
 `;
 
-const CharInner = styled.div`
-  width: 36%;
-  background-image: url(${Chart});
-  background-size: contain;
-  background-repeat: no-repeat;
-`;
+// const CharInner = styled.div`
+//   width: 36%;
+//   background-image: url(${Chart});
+//   background-size: contain;
+//   background-repeat: no-repeat;
+// `;
 
 const ThirdInner = styled.div`
   @media only screen and (max-width: 479.98px) {
